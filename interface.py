@@ -12,24 +12,24 @@ ecran.pack()
 
 
 def reset():
-    ecran.itemconfig(texte,  text="la partie recommence avec les mêmes paramètres")
-    ecran.pack()
+	ecran.itemconfig(texte,  text="la partie recommence avec les mêmes paramètres")
+	ecran.pack()
 def menu():
-    ecran.itemconfig(texte,text="retour au menu principal")
-    ecran.pack()
+	ecran.itemconfig(texte,text="retour au menu principal")
+	ecran.pack()
 def petit():
-     if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille petite, êtes vous sur?'):
-        ecran.itemconfig(texte, text="la partie redémarre avec la taille choisie : petite")
+	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille petite, êtes vous sur?'):
+		ecran.itemconfig(texte, text="la partie redémarre avec la taille choisie : petite")
 def moyen():
-    if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille moyenne, êtes vous sur?'):
-     ecran.itemconfig(texte, text="la partie redémarre avec la taille choisie : moyenne")
+	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille moyenne, êtes vous sur?'):
+		ecran.itemconfig(texte, text="la partie redémarre avec la taille choisie : moyenne")
 def grand():
-     if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille grande, êtes vous sur?'):
-        ecran.itemconfig(texte, text="la partie redémarre avec la taille choisie : grande")
+	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille grande, êtes vous sur?'):
+		ecran.itemconfig(texte, text="la partie redémarre avec la taille choisie : grande")
 def quitter():
-    if askyesno('attention', 'êtes vous sur de vouloir fermer la fenêtre?'):
-        ecran.itemconfig(texte, text="confirmation de fermeture into fermeture de la fenetre")
-        fenetre.destroy()
+	if askyesno('attention', 'êtes vous sur de vouloir fermer la fenêtre?'):
+		ecran.itemconfig(texte, text="confirmation de fermeture into fermeture de la fenetre")
+		fenetre.destroy()
 
 
 menubar = Menu(fenetre)
