@@ -1,0 +1,12 @@
+[MESSAGES CONTROL]
+
+# On ignore la C0330 buguée et les conventions de nommage PEP8
+disable=C0330,C0103
+
+[FORMAT]
+
+# Indentation avec des tabulations
+indent-string=\"\t\"
+
+# Taille des lignes maximales de 80 (imposé par le professeur)
+max-line-length=80
