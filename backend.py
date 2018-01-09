@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # Fait par Vincent Ploquien
 
+"""Le backend gère toute la partie logique du jeu
+(gestion du plateau, test de placement, ...)"""
+
 # Dépendances
 import random
 
@@ -10,7 +13,8 @@ pp = pprint.PrettyPrinter(indent=4)
 # -
 
 class Board:
-	"""Le tableau de jeu d'une partie de Tetris avec sa bibliothèque de formes possibles"""
+	"""Le tableau de jeu d'une partie de Tetris
+	avec sa bibliothèque de formes possibles"""
 	def __init__(self, width, height, base=0):
 		"""Initialise le tableau de jeu
 
@@ -32,9 +36,9 @@ class Board:
 
 	def fillMatrix(self, fillValue):
 		"""Rempli le tableau de jeu avec la valeur fillValue"""
-		for line in self.matrix:
-			for element in line:
-				element = fillValue
+		for y in range(len(self.matrix)):
+			for x in range(len(self.matrix[y])):
+				self.matrix[y][x] = fillValue
 
 	def isEmpty(self, x, y):
 		"""Renvoie True si la case en x,y est vide"""
@@ -80,12 +84,15 @@ class Piece:
 		self.shape = shape
 
 
-if __name__=="__main__":
-	board = Board(10,10)
+if __name__ == "__main__":
+	board = Board(10, 10)
 	pp.pprint(board.matrix)
+	board.fillMatrix(1)
+	pp.pprint(board.matrix)
+	
 	board.addPiece(Piece([
-			[1,1],
-			[1,0]
+			[1, 1],
+			[1, 0]
 	]))
 
 	piece = board.getRandomPiece()
