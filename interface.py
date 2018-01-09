@@ -13,12 +13,15 @@ texte = Label(fenetre, text="            Bienvenue \n choisissez votre mode de j
 texte.grid(columnspan=1, row=1)
 def standard():
 	texte.config(text="le mode standard se lance")
+	#TODO : lancer l'interface du mode standard
 def random():
 	texte.config( text="le mode aléatoire se lance")
+	#TODO : lancer l'interface du mode random
 def reset():
 	texte.config( text="la partie recommence avec les mêmes paramètres")
 def menu():
 	texte.config( text="retour au menu principal")
+	#TODO : retourner à l'interface de lancement
 def petit():
 	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille petite, êtes vous sur?'):
 	 texte.config( text="la partie redémarre avec la taille choisie : petite")
