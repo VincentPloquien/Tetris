@@ -3,6 +3,8 @@ from tkinter.messagebox import *
 largeur=500
 hauteur=500
 fenetre = Tk()
+root = Tk.Tk() 
+root.title('Tetris') 
 ecran= Canvas(fenetre, width=largeur, height=hauteur)
 texte=ecran.create_text(largeur/2, 10,  text="bienvenue")
 ecran.pack()
