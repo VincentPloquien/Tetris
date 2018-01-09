@@ -7,7 +7,7 @@ hauteur=500
 fenetre = Tk()
 fenetre.title("Tetris")
 ecran= Canvas(fenetre, width=largeur, height=hauteur)
-texte=ecran.create_text(largeur/2, 10,  text="Bonsoir")
+texte=ecran.create_text(largeur/2, 10,  text="Bienvenue")
 ecran.pack()
 
 
