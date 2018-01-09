@@ -1,12 +1,16 @@
 from tkinter import *
 from tkinter.messagebox import *
+
 largeur=500
 hauteur=500
+
 fenetre = Tk()
 fenetre.title("Tetris")
 ecran= Canvas(fenetre, width=largeur, height=hauteur)
 texte=ecran.create_text(largeur/2, 10,  text="bienvenue")
 ecran.pack()
+
+
 def reset():
     ecran.itemconfig(texte,  text="la partie recommence avec les mêmes paramètres")
     ecran.pack()
@@ -26,10 +30,12 @@ def quitter():
     if askyesno('attention', 'êtes vous sur de vouloir fermer la fenêtre?'):
         ecran.itemconfig(texte, text="confirmation de fermeture into fermeture de la fenetre")
         fenetre.destroy()
+
+
 menubar = Menu(fenetre)
 menu1 = Menu(menubar, tearoff=0)
 menu1.add_command(label="Lancer une nouvelle partie", command=reset)
-menu1.add_command(label="choir le mode de jeu", command=menu)
+menu1.add_command(label="choisir le mode de jeu", command=menu)
 menu1.add_separator()
 menu1.add_command(label="Quitter", command=quitter)
 menubar.add_cascade(label="Menu", menu=menu1)
