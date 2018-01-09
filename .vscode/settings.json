@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\crayb\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe"
+    "python.linting.pylintArgs": [
+        "--disable=W0312,C0330,C0103,C0304,C0326,C0303,C0111,W0614"
+    ]
 }
