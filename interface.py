@@ -5,7 +5,7 @@ hauteur=500
 fenetre = Tk()
 fenetre.title("Tetris")
 ecran= Canvas(fenetre, width=largeur, height=hauteur)
-texte=ecran.create_text(largeur/2, 10,  text="bienvenue")
+texte=ecran.create_text(largeur/2, 10,  text="Tire-bouchon")
 ecran.pack()
 def reset():
     ecran.itemconfig(texte,  text="la partie recommence avec les mêmes paramètres")
