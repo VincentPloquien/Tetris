@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# Fait par Vincent Ploquien
 
 # Dépendances
 import random
