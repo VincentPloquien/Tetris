@@ -1,17 +1,18 @@
 from functools import partial
 from tkinter import *
 from tkinter.messagebox import *
-
-largeur=500
-hauteur=500
+#importation des bibliothèques
 
 fenetre = Tk()
 fenetre.title("Tetris")
+#création et nommage de la fenêtre de jeu
 
-
-texte = Label(fenetre, text="            Bienvenue \n choisissez votre mode de jeu", padx="100", pady="10")
+texte = Label(fenetre, text="            Bienvenue \n choisissez votre mode de jeu",
+padx="100", pady="10")
 texte.grid(columnspan=1, row=1)
+#affichage du texte temporaire explicatif
 def standard():
+	fenetre.delete(ALL)
 	texte.config(text="le mode standard se lance")
 	#TODO : lancer l'interface du mode standard
 def random():
@@ -50,12 +51,13 @@ menu2.add_command(label="Moyen", command=moyen)
 menu2.add_command(label="Grand", command=grand)
 menubar.add_cascade(label="Taille du jeu", menu=menu2)
 fenetre.config(menu=menubar)
+#création du menu déroulant
 
 button1 = Button(fenetre, text='mode standard', padx=10, pady=10, command=standard)
 button1.grid(column=0, row=2)
 button2 = Button(fenetre, text='mode aléatoire', padx=10, pady=10, command=random)
 button2.grid(column=0, row=3)
-
+#création des boutons du menu principale
 
 fenetre.mainloop()
 
