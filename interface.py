@@ -2,15 +2,19 @@ from functools import partial
 from tkinter import *
 from tkinter.messagebox import *
 #importation des bibliothèques
+
 liste=[]
+
 def reset():
 	pass
 	#texte.config( text="la partie recommence avec les mêmes paramètres")
+
 def menu():
 	liste[0].destroy()
 	liste.clear()
 	general()
 	#TODO : retourner à l'interface de lancement
+
 def petit():
 	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille petite, êtes vous sur?'):
 	 pass
@@ -19,17 +23,21 @@ def moyen():
 	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille moyenne, êtes vous sur?'):
 	 pass
 	#texte.config( text="la partie redémarre avec la taille choisie : moyenne")
+
 def grand():
 	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille grande, êtes vous sur?'):
 	 pass
 	#texte.config( text="la partie redémarre avec la taille choisie : grande")
+
 def quitter():
 	if askyesno('attention', 'êtes vous sur de vouloir fermer la fenêtre?'):
 	 liste[0].destroy()
 	 liste.clear()
+
 def standard():
 	liste[0].destroy()
 	liste.clear()
+
 	scorej1=3
 	scorej2=1
 
@@ -51,9 +59,6 @@ def standard():
 	thomas= Label(jeu, text="tableau de thomas", bg="medium aquamarine", padx=20, pady=100)
 	thomas.grid(column=1, row=1)
 
-
-
-
 	menubar = Menu(jeu)
 	menu1 = Menu(menubar, tearoff=0)
 	menu1.add_command(label="Lancer une nouvelle partie", command=reset)
@@ -69,9 +74,9 @@ def standard():
 	jeu.config(menu=menubar)
 	#création du menu déroulant		
 
-
 	jeu.mainloop()
 	#texte.config(text="le mode standard se lance")
+
 def random():
 	pass
 	#texte.config( text="le mode aléatoire se lance")
@@ -97,7 +102,3 @@ def general():
 	fenetre.mainloop()
 	print("ok")
 general()
-	#TODO : lancer l'interface du mode standard
-
-
-
