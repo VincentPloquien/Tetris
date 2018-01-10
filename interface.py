@@ -100,5 +100,4 @@ def general():
 	
 	liste.append(fenetre)
 	fenetre.mainloop()
-	print("ok")
 general()
