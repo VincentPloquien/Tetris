@@ -26,27 +26,16 @@ def standard():
 	j1= Frame(jeu, borderwidth=2, relief=GROOVE,)
 	j1.grid(column=0, row=0)
 	Label(j1, text="joueur 1:").pack(padx=10, pady=2)
+	Label(j1, text=scorej1)
 	j2= Frame(jeu, borderwidth=2, relief=GROOVE)
 	j2.grid(column=3, row=0)
 	Label(j2, text="joueur :").pack(padx=10, pady=2)
-	thomas= Label(jeu, text="talbeau de thomas \n", text=scorej1, bg="medium aquamarine", padx=20, pady=200)
+	thomas= Label(jeu, text="talbeau de thomas", bg="medium aquamarine", padx=20, pady=200)
 	thomas.grid(column=1, row=1)
 
 
 
-	menubar = Menu(jeu)
-	menu1 = Menu(menubar, tearoff=0)
-	menu1.add_command(label="Lancer une nouvelle partie", command=reset)
-	menu1.add_command(label="retour au choix du mode de jeu", command=menu)
-	menu1.add_separator()
-	menu1.add_command(label="Quitter", command=quitter)
-	menubar.add_cascade(label="Menu", menu=menu1)
-	menu2 = Menu(menubar, tearoff=0)
-	menu2.add_command(label="Petit", command=petit)
-	menu2.add_command(label="Moyen", command=moyen)
-	menu2.add_command(label="Grand", command=grand)
-	menubar.add_cascade(label="Taille du jeu", menu=menu2)
-	jeu.config(menu=menubar)
+
 	#création du menu déroulant
 	def reset():
 		texte.config( text="la partie recommence avec les mêmes paramètres")
@@ -66,7 +55,19 @@ def standard():
 		if askyesno('attention', 'êtes vous sur de vouloir fermer la fenêtre?'):
 		 texte.config( text="confirmation de fermeture into fermeture de la fenetre")
 		jeu.destroy()
-		
+	menubar = Menu(jeu)
+	menu1 = Menu(menubar, tearoff=0)
+	menu1.add_command(label="Lancer une nouvelle partie", command=reset)
+	menu1.add_command(label="retour au choix du mode de jeu", command=menu)
+	menu1.add_separator()
+	menu1.add_command(label="Quitter", command=quitter)
+	menubar.add_cascade(label="Menu", menu=menu1)
+	menu2 = Menu(menubar, tearoff=0)
+	menu2.add_command(label="Petit", command=petit)
+	menu2.add_command(label="Moyen", command=moyen)
+	menu2.add_command(label="Grand", command=grand)
+	menubar.add_cascade(label="Taille du jeu", menu=menu2)
+	jeu.config(menu=menubar)
 		
 	jeu.mainloop()
 	texte.config(text="le mode standard se lance")
