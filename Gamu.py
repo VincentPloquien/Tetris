@@ -46,13 +46,21 @@ def find():
                 canvas.itemconfigure(C, fill = "red")
 #====== Fonciton qui cherche où l'on clique ======
 def pointeur(event):
-    Coord = []
+    Coord = ["IsValid", "X", "Y"]
     if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+LARG*TAILLE_CARREAU):
-        X_Carreau = abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU
+        X_Carreau = int(abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU)
+        Coord[0] = "Valid"
+        Coord[1] = X_Carreau
         print(X_Carreau)
-    if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+HAUT*TAILLE_CARREAU):
-        Y_Carreau = abs(((PIX_H_INTERFACE+HAUT*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)
+    else :
+        Coord[0] = "Not_Valid"
+
+    if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+HAUT*TAILLE_CARREAU and Coord[0] == "Valid"):
+        Y_Carreau = int(abs((((PIX_H_INTERFACE+HAUT*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)-5))
+        Coord[2] = Y_Carreau
         print(Y_Carreau)
+    else :
+        Coord[0] = "Not_Valid"
 
 fenetre = Tk()
 
