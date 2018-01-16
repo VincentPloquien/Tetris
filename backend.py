@@ -30,7 +30,7 @@ class Board:
 		self.height = height
 
 		# Créer une matrice de taille width*height
-		self.matrix = [[base]*width]*height
+		self.matrix = [[base for i in range(width)] for j in range(height)]
 
 		# Créer une bibliothèques des formes possibles
 		self.shapes = []
@@ -54,6 +54,7 @@ class Board:
 	def placePiece(self, piece, x, y, color=1):
 		"""Insere la piece dans le tableau de jeu apres verification"""
 		shape = piece.shape
+		# Vérification de validité
 		for i, line in enumerate(shape):
 			for j, pixel in enumerate(line):
 				# Vérification de l'emplacement
@@ -64,8 +65,10 @@ class Board:
 
 				if not self.isFree(x + i, y + j):
 					raise PlacementException("Une pièce est déjà présente")
-				else:
-					self.matrix[y][x] = color
+					
+		for i, line in enumerate(shape):
+			for j, pixel in enumerate(line):
+					self.matrix[y + j][x + i] = color
 
 	# Bibliothèques de pièces
 
@@ -114,10 +117,8 @@ class Piece:
 # Execution du programme directement (pour le test)
 if __name__ == "__main__":
 	board = Board(10, 10)
+	board.matrix[0][0] = 1
 	pp.pprint(board.matrix)
-	board.fillMatrix(1)
-	pp.pprint(board.matrix)
-	board.fillMatrix(0)
 	
 	# Définitions des pièces
 	carre = Piece([
@@ -136,7 +137,7 @@ if __name__ == "__main__":
 	board.addPiece(ligne)
 	
 	try:
-		board.placePiece(carre, 0, 0)
+		board.placePiece(carre, 0, 1)
 	except PlacementException:
 		raise
 	pp.pprint(board.matrix)
