@@ -65,7 +65,8 @@ class Board:
 
 				if not self.isFree(x + i, y + j):
 					raise PlacementException("Une pièce est déjà présente")
-					
+		
+		# Placement de la pièce
 		for i, line in enumerate(shape):
 			for j, pixel in enumerate(line):
 					self.matrix[y + j][x + i] = color
@@ -130,7 +131,7 @@ if __name__ == "__main__":
 			[1]
 	])
 	ligne = Piece([
-		[1, 1]
+			[1, 1]
 	])
 	board.addPiece(carre)
 	board.addPiece(colonne)
