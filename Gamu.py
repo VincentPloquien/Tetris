@@ -13,7 +13,7 @@ Tableau = [
     [0,1,0,0,0,0],
     [0,0,0,0,0,0],
     ]
-TailleCarreau = 25 #Coté de chaque carreau de la grille en pixel
+TAILLE_CARREAU = 25 #Coté de chaque carreau de la grille en pixel
 
 #====== Génération de la grille ======
 def initGrille():
@@ -24,12 +24,12 @@ def initGrille():
             tag = str(j)+"-"+str(i)     #Création du tag de chaque carreau
             Pt = canvas.create_rectangle(PIX_L_INTERFACE/2+L,
                                          PIX_H_INTERFACE/2+H,
-                                         PIX_L_INTERFACE/2+L+TailleCarreau,
-                                         PIX_H_INTERFACE/2+H+TailleCarreau,
+                                         PIX_L_INTERFACE/2+L+TAILLE_CARREAU,
+                                         PIX_H_INTERFACE/2+H+TAILLE_CARREAU,
                                          tags = tag)
-            L += TailleCarreau
+            L += TAILLE_CARREAU
             print(tag)
-        H += TailleCarreau
+        H += TAILLE_CARREAU
         L = 0
 
 #====== Fonction qui change les couleurs des carreaux ======
@@ -44,16 +44,25 @@ def find():
                 tag = str(i)+"-"+str(j)
                 C = canvas.find_withtag(tag)
                 canvas.itemconfigure(C, fill = "red")
-
+#====== Fonciton qui cherche où l'on clique ======
+def pointeur(event):
+    Coord = []
+    if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+LARG*TAILLE_CARREAU):
+        X_Carreau = abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU
+        print(X_Carreau)
+    if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+HAUT*TAILLE_CARREAU):
+        Y_Carreau = abs(((PIX_H_INTERFACE+HAUT*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)
+        print(Y_Carreau)
 
 fenetre = Tk()
 
 label = Label(fenetre, text="Tétriste")
 label.grid()
 
-canvas = Canvas(fenetre, width=(PIX_L_INTERFACE+LARG*TailleCarreau), height=(PIX_H_INTERFACE+HAUT*TailleCarreau), background='white') #Board.widthm Board.height
+canvas = Canvas(fenetre, width=(PIX_L_INTERFACE+LARG*TAILLE_CARREAU), height=(PIX_H_INTERFACE+HAUT*TAILLE_CARREAU), background='white') #Board.widthm Board.height
 initGrille()
 find()
+canvas.bind("<Button-1>", pointeur)
 
 canvas.grid()
 
