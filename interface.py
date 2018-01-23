@@ -79,8 +79,7 @@ def pointeur(event):
 		CPT_TOUR = (CPT_TOUR + 1)%2 +1
 		print(board.matrix)
 
-	
-def placement_pieces:
+
 
 def choix():
 	liste[0].destroy()
@@ -159,9 +158,12 @@ def standard():
 	#========>
 
 	menu_deroulant()
-	tabpieces = Canvas(jeu1, background='thistle1')
-	tabpieces
-	tabpieces.grid(column=1, row = 2)
+	tabpieces0 = Canvas(jeu1, background='thistle1')
+	tabpieces0.grid(column=0, row = 2)
+	tabpieces1 = Canvas(jeu1, background='thistle2')
+	tabpieces1.grid(column=1, row = 2)
+	tabpieces2 = Canvas(jeu1, background='thistle3')
+	tabpieces2.grid(column=2, row = 2)
 	jeu1.mainloop()
 	#texte.config(text="le mode standard se lance")
 
