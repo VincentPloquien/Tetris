@@ -28,7 +28,7 @@ def menu():
 	liste.clear()
 	general()
 	#TODO : retourner à l'interface de lancement
-
+  
 def petit():
 	x=6
 	y=6

@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # Fait par Vincent Ploquien
 
+"""Le backend gère toute la partie logique du jeu
+(gestion du plateau, test de placement, ...)"""
+
 # Dépendances
 import random
 
@@ -9,8 +12,12 @@ import pprint
 pp = pprint.PrettyPrinter(indent=4)
 # -
 
+class PlacementException(Exception):
+	pass
+
 class Board:
-	"""Le tableau de jeu d'une partie de Tetris avec sa bibliothèque de formes possibles"""
+	"""Le tableau de jeu d'une partie de Tetris
+	avec sa bibliothèque de formes possibles"""
 	def __init__(self, width, height, base=0):
 		"""Initialise le tableau de jeu
 
@@ -23,7 +30,7 @@ class Board:
 		self.height = height
 
 		# Créer une matrice de taille width*height
-		self.matrix = [[base]*width]*height
+		self.matrix = [[base for i in range(width)] for j in range(height)]
 
 		# Créer une bibliothèques des formes possibles
 		self.shapes = []
@@ -32,18 +39,42 @@ class Board:
 
 	def fillMatrix(self, fillValue):
 		"""Rempli le tableau de jeu avec la valeur fillValue"""
-		for line in self.matrix:
-			for element in line:
-				element = fillValue
+		for y in range(len(self.matrix)):
+			for x in range(len(self.matrix[y])):
+				self.matrix[y][x] = fillValue
+	
+	def clearMatrix(self):
+		"""Rempli le tableau de jeu de 0"""
+		self.fillMatrix(0)
 
-	def isEmpty(self, x, y):
+	def isFree(self, x, y):
 		"""Renvoie True si la case en x,y est vide"""
 		return self.matrix[y][x] == 0
+
+	def placePiece(self, piece, x, y, color=1):
+		"""Insere la piece dans le tableau de jeu apres verification"""
+		shape = piece.shape
+		# Vérification de validité
+		for i, line in enumerate(shape):
+			for j, pixel in enumerate(line):
+				# Vérification de l'emplacement
+				try:
+					isFree = self.isFree(x + i, y + j)
+				except IndexError:
+					raise PlacementException("La pièce dépasse du tableau de jeu")
+
+				if not self.isFree(x + i, y + j):
+					raise PlacementException("Une pièce est déjà présente")
+		
+		# Placement de la pièce
+		for i, line in enumerate(shape):
+			for j, pixel in enumerate(line):
+					self.matrix[y + j][x + i] = color
 
 	# Bibliothèques de pièces
 
 	def addPiece(self, newPiece):
-		"""Ajoute la pièce newPiece dans la bibliothèques des pièces possibles"""
+		"""Ajoute la piece newPiece dans la bibliothèques des pièces possibles"""
 
 		# Tests de validité
 		if not isinstance(newPiece, Piece):
@@ -68,6 +99,10 @@ class Board:
 		"""Renvoie une piece valide au hasard"""
 		return random.choice(self.shapes)
 
+	def getPieceAtIndex(self, index):
+		"""Renvoie une piece a l'index index"""
+		return self.shapes[index]
+
 
 class Piece:
 	"""Une pièce de jeu, avec sa forme à elle"""
@@ -80,13 +115,33 @@ class Piece:
 		self.shape = shape
 
 
-if __name__=="__main__":
-	board = Board(10,10)
+# Execution du programme directement (pour le test)
+if __name__ == "__main__":
+	board = Board(10, 10)
+	board.matrix[0][0] = 1
 	pp.pprint(board.matrix)
-	board.addPiece(Piece([
-			[1,1],
-			[1,0]
-	]))
+	
+	# Définitions des pièces
+	carre = Piece([
+			[1, 1],
+			[1, 1]
+	])
+	colonne = Piece([
+			[1],
+			[1]
+	])
+	ligne = Piece([
+			[1, 1]
+	])
+	board.addPiece(carre)
+	board.addPiece(colonne)
+	board.addPiece(ligne)
+	
+	try:
+		board.placePiece(carre, 0, 1)
+	except PlacementException:
+		raise
+	pp.pprint(board.matrix)
 
 	piece = board.getRandomPiece()
 	pp.pprint(piece.shape)
