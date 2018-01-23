@@ -71,6 +71,8 @@ def pointeur(event):
 		Coord[0] = "Not_Valid"
 
 	
+def placement_pieces:
+
 def choix():
 	liste[0].destroy()
 	liste.clear()
@@ -148,6 +150,7 @@ def standard():
 
 	menu_deroulant()
 	tabpieces = Canvas(jeu1, background='thistle1')
+	tabpieces
 	tabpieces.grid(column=1, row = 2)
 	jeu1.mainloop()
 	#texte.config(text="le mode standard se lance")
