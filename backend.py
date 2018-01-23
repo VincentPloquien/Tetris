@@ -53,23 +53,24 @@ class Board:
 
 	def placePiece(self, piece, x, y, color=1):
 		"""Insere la piece dans le tableau de jeu apres verification"""
-		shape = piece.shape
+		shape = piece.shape # [[1, 1]]
 		# Vérification de validité
 		for i, line in enumerate(shape):
 			for j, pixel in enumerate(line):
 				# Vérification de l'emplacement
+				isFree = False
 				try:
-					isFree = self.isFree(x + i, y + j)
+					isFree = self.isFree(x + j, y + i)
 				except IndexError:
 					raise PlacementException("La pièce dépasse du tableau de jeu")
 
-				if not self.isFree(x + i, y + j):
+				if not isFree:
 					raise PlacementException("Une pièce est déjà présente")
 		
 		# Placement de la pièce
 		for i, line in enumerate(shape):
 			for j, pixel in enumerate(line):
-					self.matrix[y + j][x + i] = color
+				self.matrix[y + i][x + j] = color
 
 	# Bibliothèques de pièces
 
@@ -118,7 +119,6 @@ class Piece:
 # Execution du programme directement (pour le test)
 if __name__ == "__main__":
 	board = Board(10, 10)
-	board.matrix[0][0] = 1
 	pp.pprint(board.matrix)
 	
 	# Définitions des pièces
@@ -138,7 +138,9 @@ if __name__ == "__main__":
 	board.addPiece(ligne)
 	
 	try:
-		board.placePiece(carre, 0, 1)
+		board.placePiece(ligne, 0, 2, color=1)
+		board.placePiece(ligne, 0, 3)
+		board.placePiece(ligne, 3, 3)
 	except PlacementException:
 		raise
 	pp.pprint(board.matrix)
