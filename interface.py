@@ -30,8 +30,6 @@ def menu():
 	#TODO : retourner à l'interface de lancement
 
 def petit():
-	liste[0].destroy()
-	liste.clear()
 	x=6
 	y=6
 	return(x,y)
@@ -52,7 +50,7 @@ def quitter():
 	 liste.clear()
 
 def standard():
-	choix()
+	#choix()
 	liste[0].destroy()
 	liste.clear()
 
@@ -84,7 +82,7 @@ def standard():
 def random():
 	liste[0].destroy()
 	liste.clear()
-	choix()
+#	choix()
 	scorej1=7
 	scorej2=5
 
@@ -103,7 +101,7 @@ def random():
 	j2.grid(column=3, row=0)
 	Label(j2, text="joueur 2:").pack(padx=10, pady=2)
 	Label(j2, text=scorej2).pack()
-	thomas= Label(jeu2, text="tableau de thomas", bg="medium aquamarine", padx=x, pady=y)
+	thomas= Label(jeu2, text="tableau de thomas", bg="medium aquamarine", padx=20, pady=100)
 	thomas.grid(column=1, row=1)		
 	menu_deroulant()
 
