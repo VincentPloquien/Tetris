@@ -1,24 +1,23 @@
 from functools import partial
 from tkinter import *
 from tkinter.messagebox import *
+from backend import Board, Piece
 #importation des bibliothèques
 
 liste=[]
-LARG = 6    #Largeur de la grille (a remplacer par Board.width)
-HAUT = 6    #Hauteur de la grille (a remplacer par Board.height)
+LARG = 16    #Largeur de la grille (a remplacer par Board.width)
+HAUT = 16    #Hauteur de la grille (a remplacer par Board.height)
+board = Board(LARG, HAUT)
 PIX_H_INTERFACE = 3   #Place pour le reste des trucs
 PIX_L_INTERFACE = 3   #Place pour le reste des trucs
 TAILLE_CARREAU = 25 #Coté de chaque carreau de la grille en pixel
-Tableau = [
-	[0,1,0,1,1,1],
-	[1,1,1,0,2,2],
-	[0,1,1,1,2,2],  #Temporaire "1" = J1 | "2" = J2
-	[1,1,1,0,2,2],
-	[0,1,0,0,0,0],
-	[2,1,1,1,1,1],
-	]
-
-
+def initPiece():
+	ligne = Piece([
+			[1, 1]
+	])
+	board.addPiece(ligne)
+	
+	ligne_sauvegardee = board.getPieceAtIndex(0)
 
 #====== Génération de la grille ======
 def initGrille():
@@ -43,17 +42,20 @@ def find():
 	global canvas
 	for i in range(LARG):
 		for j in range(HAUT):
-			if (Tableau[j][i] == 1) :
+			if (board.matrix[j][i] == 1) :
 				tag = str(i)+"-"+str(j)
 				C = canvas.find_withtag(tag)
 				canvas.itemconfigure(C, fill = "green")
-			if (Tableau[j][i] == 2) :
+			if (board.matrix[j][i] == 2) :
 				tag = str(i)+"-"+str(j)
 				C = canvas.find_withtag(tag)
 				canvas.itemconfigure(C, fill = "red")
+				
 #====== Fonciton qui cherche où l'on clique ======
 def pointeur(event):
 	global canvas
+	CPT_TOUR = 1
+	#global type de pièce
 	Coord = ["IsValid", "X", "Y"]
 	if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+LARG*TAILLE_CARREAU):
 		X_Carreau = int(abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU)
@@ -69,6 +71,13 @@ def pointeur(event):
 		print(Y_Carreau)
 	else :
 		Coord[0] = "Not_Valid"
+	
+	if (Coord[0] == "Valid"):
+		ligne = board.getPieceAtIndex(0)
+		board.placePiece(ligne, Coord[1], Coord[2], color = CPT_TOUR)
+		find()
+		CPT_TOUR = (CPT_TOUR + 1)%2 +1
+		print(board.matrix)
 
 	
 def choix():
@@ -128,7 +137,7 @@ def standard():
 	
 	debut= Label(jeu1, text="mode standard")
 	debut.grid(column=1, row=0)
-	j1= Frame(jeu1, borderwidth=1, relief=SUNKEN,)
+	j1= Frame(jeu1, borderwidth=1, relief=SUNKEN)
 	j1.grid(column=0, row=0)
 	Label(j1, text="joueur 1:").pack(padx=10, pady=2)
 	Label(j1, text=scorej1).pack()
@@ -139,6 +148,7 @@ def standard():
 
 	#========> Thomas
 	global canvas
+	initPiece()
 	canvas = Canvas(jeu1, width=(PIX_L_INTERFACE+LARG*TAILLE_CARREAU), height=(PIX_H_INTERFACE+HAUT*TAILLE_CARREAU), background='white') #Board.widthm Board.height	initGrille()
 	initGrille()
 	find()
@@ -173,7 +183,7 @@ def random():
 	j2.grid(column=3, row=0)
 	Label(j2, text="joueur 2:").pack(padx=10, pady=2)
 	Label(j2, text=scorej2).pack()
-	canvas= Label(jeu2, text="tableau de thomas", bg="medium aquamarine", padx=20, pady=100)
+	canvas= Label(jeu2, text="board.matrix de thomas", bg="medium aquamarine", padx=20, pady=100)
 	canvas.grid(column=1, row=1)		
 	menu_deroulant()
 
