@@ -11,7 +11,7 @@ Tableau = [
     [0,1,1,1,2,2],  #Temporaire "1" = J1 | "2" = J2
     [1,1,1,0,2,2],
     [0,1,0,0,0,0],
-    [0,0,0,0,0,0],
+    [1,1,1,1,1,1],
     ]
 TAILLE_CARREAU = 25 #Coté de chaque carreau de la grille en pixel
 
