@@ -11,6 +11,8 @@ board = Board(LARG, HAUT)
 PIX_H_INTERFACE = 3   #Place pour le reste des trucs
 PIX_L_INTERFACE = 3   #Place pour le reste des trucs
 TAILLE_CARREAU = 25 #Coté de chaque carreau de la grille en pixel
+global cpt_tour
+cpt_tour = 1
 def initPiece():
 	ligne = Piece([
 			[1, 1]
@@ -54,7 +56,7 @@ def find():
 #====== Fonciton qui cherche où l'on clique ======
 def pointeur(event):
 	global canvas
-	CPT_TOUR = 1
+	global cpt_tour
 	#global type de pièce
 	Coord = ["IsValid", "X", "Y"]
 	if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+LARG*TAILLE_CARREAU):
@@ -74,9 +76,12 @@ def pointeur(event):
 	
 	if (Coord[0] == "Valid"):
 		ligne = board.getPieceAtIndex(0)
-		board.placePiece(ligne, Coord[1], Coord[2], color = CPT_TOUR)
+		board.placePiece(ligne, Coord[1], Coord[2], color = cpt_tour)
 		find()
-		CPT_TOUR = (CPT_TOUR + 1)%2 +1
+		if cpt_tour == 1 :
+			cpt_tour = 2
+		else :
+			cpt_tour = 1
 		print(board.matrix)
 
 	
