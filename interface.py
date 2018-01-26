@@ -15,30 +15,31 @@ global cpt_tour
 cpt_tour = 1
 
 def initPieces():
+	"""Création de toutes les pièces pouvant être jouées"""
 	board.addPiece(Piece([
 		[1, 1]
-	]))
+	])) # Ligne x2
 	board.addPiece(Piece([
 		[1],
 		[1]
-	]))
+	])) # Colonne x2
 	board.addPiece(Piece([
 		[1, 1],
 		[1, 1]
-	]))
+	])) # Carre 2x2
 	board.addPiece(Piece([
 		[0, 1],
 		[1, 1],
 		[1, 0]
-	]))
+	])) # ZigZag 2x3
 	board.addPiece(Piece([
 		[1, 1, 1]
-	]))
+	])) # Ligne x3
 	board.addPiece(Piece([
 		[1],
 		[1],
 		[1]
-	]))
+	])) # Colonne x3
 
 #====== Génération de la grille ======
 def initGrille():
@@ -71,8 +72,8 @@ def find():
 				tag = str(i)+"-"+str(j)
 				C = canvas.find_withtag(tag)
 				canvas.itemconfigure(C, fill = "red")
-				
-#====== Fonciton qui cherche où l'on clique ======
+
+#====== Fonction qui cherche où l'on clique ======
 def pointeur(event):
 	global canvas
 	global cpt_tour
@@ -126,12 +127,14 @@ def choix():
 	button3 = Button(choix, text='taille grande', padx=10, pady=10, command=grand)
 	button3.grid(column=0, row=3)
 	choix.mainloop()
+
 def menu():
 	liste[0].destroy()
 	liste.clear()
 	general()
 	#TODO : retourner à l'interface de lancement
-  
+
+# Gestion des tailles
 def petit():
 	x=6
 	y=6
@@ -141,7 +144,6 @@ def moyen():
 	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille moyenne, êtes vous sur?'):
 	 pass
 	#texte.config( text="la partie redémarre avec la taille choisie : moyenne")
-
 def grand():
 	if askyesno('redémarrage', 'vous vous apprêtez à recommencer une nouvelle partie avec la taille grande, êtes vous sur?'):
 	 pass
@@ -263,4 +265,7 @@ def menu_deroulant():
 	menubar.add_cascade(label="Taille du jeu", menu=menu2)
 	liste[0].config(menu=menubar)
 	#création du menu déroulant
-general()
+
+# Lancement du programme
+if __name__ == "__main__":
+	general()
