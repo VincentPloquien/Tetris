@@ -13,13 +13,32 @@ PIX_L_INTERFACE = 3   #Place pour le reste des trucs
 TAILLE_CARREAU = 25 #Coté de chaque carreau de la grille en pixel
 global cpt_tour
 cpt_tour = 1
-def initPiece():
-	ligne = Piece([
-			[1, 1]
-	])
-	board.addPiece(ligne)
-	
-	ligne_sauvegardee = board.getPieceAtIndex(0)
+
+def initPieces():
+	board.addPiece(Piece([
+		[1, 1]
+	]))
+	board.addPiece(Piece([
+		[1],
+		[1]
+	]))
+	board.addPiece(Piece([
+		[1, 1],
+		[1, 1]
+	]))
+	board.addPiece(Piece([
+		[0, 1],
+		[1, 1],
+		[1, 0]
+	]))
+	board.addPiece(Piece([
+		[1, 1, 1]
+	]))
+	board.addPiece(Piece([
+		[1],
+		[1],
+		[1]
+	]))
 
 #====== Génération de la grille ======
 def initGrille():
@@ -44,7 +63,7 @@ def find():
 	global canvas
 	for i in range(LARG):
 		for j in range(HAUT):
-			if (board.matrix[j][i] == 1) :
+			if board.matrix[j][i] == 1:
 				tag = str(i)+"-"+str(j)
 				C = canvas.find_withtag(tag)
 				canvas.itemconfigure(C, fill = "green")
@@ -154,7 +173,7 @@ def standard():
 
 	#========> Thomas
 	global canvas
-	initPiece()
+	initPieces()
 	canvas = Canvas(jeu1, width=(PIX_L_INTERFACE+LARG*TAILLE_CARREAU), height=(PIX_H_INTERFACE+HAUT*TAILLE_CARREAU), background='white') #Board.widthm Board.height	initGrille()
 	initGrille()
 	find()
