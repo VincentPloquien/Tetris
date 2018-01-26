@@ -1,7 +1,7 @@
 from functools import partial
 from tkinter import *
 from tkinter.messagebox import *
-from backend import Board, Piece
+from backend import Board, Piece, PlacementException
 #importation des bibliothèques
 
 liste=[]
@@ -95,7 +95,12 @@ def pointeur(event):
 	
 	if (Coord[0] == "Valid"):
 		ligne = board.getPieceAtIndex(0)
-		board.placePiece(ligne, Coord[1], Coord[2], color = cpt_tour)
+		try:
+			board.placePiece(ligne, Coord[1], Coord[2], color = cpt_tour)
+		except PlacementException as e:
+			# La pièce n'as pas pu être placée
+			print(e.args[0])
+			# TODO Montrer le message d'erreur à l'utilisateur et annuler le placement proprement
 		find()
 		if cpt_tour == 1 :
 			cpt_tour = 2
