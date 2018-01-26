@@ -1,12 +1,110 @@
 from functools import partial
 from tkinter import *
 from tkinter.messagebox import *
+from backend import Board, Piece
 #importation des bibliothèques
 
 liste=[]
+LARG = 16    #Largeur de la grille (a remplacer par Board.width)
+HAUT = 16    #Hauteur de la grille (a remplacer par Board.height)
+board = Board(LARG, HAUT)
+PIX_H_INTERFACE = 3   #Place pour le reste des trucs
+PIX_L_INTERFACE = 3   #Place pour le reste des trucs
+TAILLE_CARREAU = 25 #Coté de chaque carreau de la grille en pixel
+global cpt_tour
+cpt_tour = 1
 
+def initPieces():
+	board.addPiece(Piece([
+		[1, 1]
+	]))
+	board.addPiece(Piece([
+		[1],
+		[1]
+	]))
+	board.addPiece(Piece([
+		[1, 1],
+		[1, 1]
+	]))
+	board.addPiece(Piece([
+		[0, 1],
+		[1, 1],
+		[1, 0]
+	]))
+	board.addPiece(Piece([
+		[1, 1, 1]
+	]))
+	board.addPiece(Piece([
+		[1],
+		[1],
+		[1]
+	]))
 
+#====== Génération de la grille ======
+def initGrille():
+	global canvas
+	L = 0 #var décalage en X
+	H = 0 #var décalage en Y
+	for i in range(HAUT):               #Board.width
+		for j in range(LARG):           #Board.height
+			tag = str(j)+"-"+str(i)     #Création du tag de chaque carreau
+			Pt = canvas.create_rectangle(PIX_L_INTERFACE/2+L,
+										 PIX_H_INTERFACE/2+H,
+										 PIX_L_INTERFACE/2+L+TAILLE_CARREAU,
+										 PIX_H_INTERFACE/2+H+TAILLE_CARREAU,
+										 tags = tag)
+			L += TAILLE_CARREAU
+			print(tag)
+		H += TAILLE_CARREAU
+		L = 0
+
+#====== Fonction qui change les couleurs des carreaux ======
+def find():
+	global canvas
+	for i in range(LARG):
+		for j in range(HAUT):
+			if board.matrix[j][i] == 1:
+				tag = str(i)+"-"+str(j)
+				C = canvas.find_withtag(tag)
+				canvas.itemconfigure(C, fill = "green")
+			if (board.matrix[j][i] == 2) :
+				tag = str(i)+"-"+str(j)
+				C = canvas.find_withtag(tag)
+				canvas.itemconfigure(C, fill = "red")
+				
+#====== Fonciton qui cherche où l'on clique ======
+def pointeur(event):
+	global canvas
+	global cpt_tour
+	#global type de pièce
+	Coord = ["IsValid", "X", "Y"]
+	if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+LARG*TAILLE_CARREAU):
+		X_Carreau = int(abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU)
+		Coord[0] = "Valid"
+		Coord[1] = X_Carreau
+		print(X_Carreau)
+	else :
+		Coord[0] = "Not_Valid"
+
+	if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+HAUT*TAILLE_CARREAU and Coord[0] == "Valid"):
+		Y_Carreau = int(abs((((PIX_H_INTERFACE+HAUT*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)-(HAUT-1)))
+		Coord[2] = Y_Carreau
+		print(Y_Carreau)
+	else :
+		Coord[0] = "Not_Valid"
 	
+	if (Coord[0] == "Valid"):
+		ligne = board.getPieceAtIndex(0)
+		board.placePiece(ligne, Coord[1], Coord[2], color = cpt_tour)
+		find()
+		if cpt_tour == 1 :
+			cpt_tour = 2
+		else :
+			cpt_tour = 1
+		print(board.matrix)
+
+
+
 def choix():
 	liste[0].destroy()
 	liste.clear()
@@ -64,7 +162,7 @@ def standard():
 	
 	debut= Label(jeu1, text="mode standard")
 	debut.grid(column=1, row=0)
-	j1= Frame(jeu1, borderwidth=1, relief=SUNKEN,)
+	j1= Frame(jeu1, borderwidth=1, relief=SUNKEN)
 	j1.grid(column=0, row=0)
 	Label(j1, text="joueur 1:").pack(padx=10, pady=2)
 	Label(j1, text=scorej1).pack()
@@ -72,10 +170,24 @@ def standard():
 	j2.grid(column=3, row=0)
 	Label(j2, text="joueur 2:").pack(padx=10, pady=2)
 	Label(j2, text=scorej2).pack()
-	thomas= Label(jeu1, text="tableau de thomas", bg="medium aquamarine", padx=20, pady=100)
-	thomas.grid(column=1, row=1)		
-	menu_deroulant()
 
+	#========> Thomas
+	global canvas
+	initPieces()
+	canvas = Canvas(jeu1, width=(PIX_L_INTERFACE+LARG*TAILLE_CARREAU), height=(PIX_H_INTERFACE+HAUT*TAILLE_CARREAU), background='white') #Board.widthm Board.height	initGrille()
+	initGrille()
+	find()
+	canvas.bind("<Button-1>", pointeur)
+	canvas.grid(column=1, row=1)
+	#========>
+
+	menu_deroulant()
+	tabpieces0 = Canvas(jeu1, background='thistle1')
+	tabpieces0.grid(column=0, row = 2)
+	tabpieces1 = Canvas(jeu1, background='thistle2')
+	tabpieces1.grid(column=1, row = 2)
+	tabpieces2 = Canvas(jeu1, background='thistle3')
+	tabpieces2.grid(column=2, row = 2)
 	jeu1.mainloop()
 	#texte.config(text="le mode standard se lance")
 
@@ -101,8 +213,8 @@ def random():
 	j2.grid(column=3, row=0)
 	Label(j2, text="joueur 2:").pack(padx=10, pady=2)
 	Label(j2, text=scorej2).pack()
-	thomas= Label(jeu2, text="tableau de thomas", bg="medium aquamarine", padx=20, pady=100)
-	thomas.grid(column=1, row=1)		
+	canvas= Label(jeu2, text="board.matrix de thomas", bg="medium aquamarine", padx=20, pady=100)
+	canvas.grid(column=1, row=1)		
 	menu_deroulant()
 
 	jeu2.mainloop()
