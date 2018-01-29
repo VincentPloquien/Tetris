@@ -97,14 +97,23 @@ class InterfaceJeu(tk.Frame):
 
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
+			def tab1(event):
+				txt1=tabpieces0.create_text(200,200,text="click")
+			def tab2(event):
+				txt2=tabpieces1.create_text(50,50,text="click")
+			def tab3(event):
+				txt3=tabpieces2.create_text(50,50,text="click")
 			tabpieces0 = tk.Canvas(self, background='thistle1')
 			tabpieces0.grid(column=0, row = 2)
+			tabpieces0.bind("<Button-1>",tab1)
 
 			tabpieces1 = tk.Canvas(self, background='thistle2')
 			tabpieces1.grid(column=1, row = 2)
+			tabpieces1.bind("<Button-1>",tab2)
 
 			tabpieces2 = tk.Canvas(self, background='thistle3')
 			tabpieces2.grid(column=2, row = 2)
+			tabpieces2.bind("<Button-1>",tab3)
 		elif self.parent.mode == "random":
 			# TODO Finir le mode aléatoire
 			pass
