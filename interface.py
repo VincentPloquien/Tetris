@@ -155,9 +155,9 @@ class InterfaceJeu(tk.Frame):
 			[1, 1]
 		])) # Carre 2x2
 		self.board.addPiece(Piece([
-			[0, 1],
+			[1, 0],
 			[1, 1],
-			[1, 0]
+			[0, 1]
 		])) # ZigZag 2x3
 		self.board.addPiece(Piece([
 			[1, 1, 1]
