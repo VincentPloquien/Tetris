@@ -81,32 +81,31 @@ class InterfaceJeu(tk.Frame):
 		self.scoreJ1 = 3
 		self.scoreJ2 = 1
 		self.cpt_tour = 1
+		self.piece_choisie = None
+		self.listePieces = []
 
 		# TODO : Changer la taille en fonction de self.parent.taille
 		self.board = Board(LARG, HAUT)
 
-		### Init fenêtre
-		self.scores()
+		### Init interface
+		self.initInterface()
 
 		# Init plateau de jeu
 		self.canvas = tk.Canvas(self, width=(PIX_L_INTERFACE+LARG*TAILLE_CARREAU), height=(PIX_H_INTERFACE+HAUT*TAILLE_CARREAU), background='white') #Board.widthm Board.height	initGrille()
+		self.canvas.bind("<Button-1>", self.pointeur)
+		self.canvas.grid(column=1, row=2)
 		self.creation_des_pieces()
 		self.initGrille()
 		self.find()
 
-		self.canvas.bind("<Button-1>", self.pointeur)
-		self.canvas.grid(column=1, row=2)
-		self.erreur=tk.Label(self, text="")
-		self.erreur.grid(column=1, row=1)
-
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
-			def tab1(event):
-				self.txt1=self.listePieces[0]
-			def tab2(event):
-				self.txt1=self.listePieces[1]
-			def tab3(event):
-				self.txt1=self.listePieces[2]
+			def tab1(_):
+				self.piece_choisie=self.listePieces[0]
+			def tab2(_):
+				self.piece_choisie=self.listePieces[1]
+			def tab3(_):
+				self.piece_choisie=self.listePieces[2]
 			self.tabpieces0 = tk.Canvas(self, width=(100), height=(100), background='thistle1')
 			self.tabpieces0.grid(column=0, row = 3)
 			self.tabpieces0.bind("<Button-1>",tab1)
@@ -119,12 +118,12 @@ class InterfaceJeu(tk.Frame):
 			self.tabpieces2.grid(column=2, row = 3)
 			self.tabpieces2.bind("<Button-1>",tab3)
 
-			self.PièceInit()
+			self.initChoix()
 		elif self.parent.mode == "random":
 			# TODO Finir le mode aléatoire
 			pass
 
-	def scores(self):
+	def initInterface(self):
 		# Label mode de jeu
 		self.modeLabel = tk.Label(self, text="Mode {}".format(self.parent.mode))
 		self.modeLabel.grid(column=1, row=0)
@@ -140,6 +139,10 @@ class InterfaceJeu(tk.Frame):
 		self.j2.grid(column=2, row=0)
 		tk.Label(self.j2, text="joueur 2:").pack(padx=10, pady=2)
 		tk.Label(self.j2, text=self.scoreJ2).pack()
+
+		# Label message d'erreur
+		self.erreur = tk.Label(self, text="")
+		self.erreur.grid(column=1, row=1)
 
 	def creation_des_pieces(self):
 		"""Création de toutes les pièces pouvant être jouées"""
@@ -169,18 +172,17 @@ class InterfaceJeu(tk.Frame):
 		])) # Colonne x3
 
 
-	def PièceInit(self):
+	def initChoix(self):
 		cpt = 0
 		L = 0 #var décalage en X
 		H = 0 #var décalage en Y
-		self.listePieces = []
 		while cpt < 3:
 			if cpt == 0 :
 				self.listePieces.append(self.board.getRandomPiece())
 				cpt =1
 			else :
 				pt = self.board.getRandomPiece()
-				if(pt not in self.listePieces):
+				if pt not in self.listePieces:
 					self.listePieces.append(pt)
 					cpt += 1
 
@@ -189,7 +191,7 @@ class InterfaceJeu(tk.Frame):
 		for y in range(len(S1)):
 			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
-					Pt = self.tabpieces0.create_rectangle(20+L,
+					self.tabpieces0.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
@@ -205,7 +207,7 @@ class InterfaceJeu(tk.Frame):
 		for y in range(len(S1)):
 			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
-					Pt = self.tabpieces1.create_rectangle(20+L,
+					self.tabpieces1.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
@@ -222,7 +224,7 @@ class InterfaceJeu(tk.Frame):
 		for y in range(len(S1)):
 			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
-					Pt = self.tabpieces2.create_rectangle(20+L,
+					self.tabpieces2.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
@@ -240,7 +242,7 @@ class InterfaceJeu(tk.Frame):
 		for i in range(HAUT):               #Board.width
 			for j in range(LARG):           #Board.height
 				tag = str(j)+"-"+str(i)     #Création du tag de chaque carreau
-				Pt = self.canvas.create_rectangle(PIX_L_INTERFACE/2+L,
+				self.canvas.create_rectangle(PIX_L_INTERFACE/2+L,
 											PIX_H_INTERFACE/2+H,
 											PIX_L_INTERFACE/2+L+TAILLE_CARREAU,
 											PIX_H_INTERFACE/2+H+TAILLE_CARREAU,
@@ -283,9 +285,8 @@ class InterfaceJeu(tk.Frame):
 			Coord[0] = "Not_Valid"
 		
 		if (Coord[0] == "Valid"):
-			ligne = self.board.getPieceAtIndex(0)
 			try:
-				self.board.placePiece(self.txt1, Coord[1], Coord[2], color = self.cpt_tour)
+				self.board.placePiece(self.piece_choisie, Coord[1], Coord[2], color = self.cpt_tour)
 			except PlacementException as e:
 				# La pièce n'as pas pu être placée
 				print(e.args[0])
@@ -303,9 +304,10 @@ class InterfaceJeu(tk.Frame):
 	def reset(self):
 		# TODO A finir (nettoyer le canvas)
 		self.scoreJ1 = self.scoreJ2 = 0
+		self.piece_choisie = None
 		self.board = Board(LARG, HAUT)
 		self.creation_des_pieces()
-		del self.txt1
+		del self.piece_choisie
 		self.canvas.delete("all")
 		self.tabpieces0.delete("all")
 		self.tabpieces1.delete("all")
@@ -313,7 +315,7 @@ class InterfaceJeu(tk.Frame):
 
 		self.listePieces = []
 		self.initGrille()
-		self.PièceInit()
+		self.initChoix()
 
 
 # Lancement du programme
