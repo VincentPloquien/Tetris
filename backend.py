@@ -118,6 +118,13 @@ class Piece:
 		shape -- tableau 2D décrivant la forme de la pièce
 		"""
 		self.shape = shape
+	
+	def __eq__(self, other):
+		"""Test d'équivalence"""
+		if isinstance(self, other.__class__):
+			return self.shape == other.shape
+		return False
+
 
 
 # Execution du programme directement (pour le test)
@@ -137,10 +144,16 @@ if __name__ == "__main__":
 	ligne = Piece([
 			[1, 1]
 	])
+	ligne2 = Piece([
+			[1, 1]
+	])
 	board.addPiece(carre)
 	board.addPiece(colonne)
 	board.addPiece(ligne)
 	
+	print(ligne == ligne2)
+	print(ligne == carre)
+
 	try:
 		board.placePiece(ligne, 0, 2, color=1)
 		board.placePiece(ligne, 0, 3)
