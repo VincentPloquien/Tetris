@@ -246,7 +246,7 @@ class InterfaceJeu(tk.Frame):
 											PIX_H_INTERFACE/2+H+TAILLE_CARREAU,
 											tags = tag)
 				L += TAILLE_CARREAU
-				print(tag)
+				# print(tag)
 			H += TAILLE_CARREAU
 			L = 0
 
