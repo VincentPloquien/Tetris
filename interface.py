@@ -294,7 +294,17 @@ class InterfaceJeu(tk.Frame):
 	def reset(self):
 		# TODO A finir (nettoyer le canvas)
 		self.scoreJ1 = self.scoreJ2 = 0
-		self.board.fillMatrix(0)
+		self.board = Board(LARG, HAUT)
+		self.creation_des_pieces()
+		del self.txt1
+		self.canvas.delete("all")
+		self.tabpieces0.delete("all")
+		self.tabpieces1.delete("all")
+		self.tabpieces2.delete("all")
+
+		self.listePieces = []
+		self.initGrille()
+		self.PièceInit()
 
 
 # Lancement du programme
