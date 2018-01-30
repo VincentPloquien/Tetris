@@ -271,14 +271,14 @@ class InterfaceJeu(tk.Frame):
 			X_Carreau = int(abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU)
 			Coord[0] = "Valid"
 			Coord[1] = X_Carreau
-			print(X_Carreau)
+			# print(X_Carreau)
 		else :
 			Coord[0] = "Not_Valid"
 
 		if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+HAUT*TAILLE_CARREAU and Coord[0] == "Valid"):
 			Y_Carreau = int(abs((((PIX_H_INTERFACE+HAUT*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)-(HAUT-1)))
 			Coord[2] = Y_Carreau
-			print(Y_Carreau)
+			# print(Y_Carreau)
 		else :
 			Coord[0] = "Not_Valid"
 		
@@ -298,7 +298,7 @@ class InterfaceJeu(tk.Frame):
 				self.cpt_tour = 2
 			else :
 				self.cpt_tour = 1
-			print(self.board.matrix)
+			# print(self.board.matrix)
 
 	def reset(self):
 		# TODO A finir (nettoyer le canvas)
