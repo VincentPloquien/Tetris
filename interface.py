@@ -326,7 +326,7 @@ class InterfaceJeu(tk.Frame):
 				self.board.placePiece(self.piece_choisie, Coord[1], Coord[2], color = self.cpt_tour)
 			except PlacementException as e:
 				# La pièce n'as pas pu être placée
-				print(e.args[0])
+				# print(e.args[0])
 				self.erreur.config(text=e.args[0])
 				self.after(1000, lambda:self.erreur.config(text=""))
 				return
