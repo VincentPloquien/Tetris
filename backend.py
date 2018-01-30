@@ -1,5 +1,4 @@
-#!/usr/bin/python3
-# Fait par Vincent Ploquien
+# G08
 
 """Le backend gère toute la partie logique du jeu
 (gestion du plateau, test de placement, ...)"""
