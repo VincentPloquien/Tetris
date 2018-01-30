@@ -270,9 +270,9 @@ class InterfaceJeu(tk.Frame):
 			L = 0
 		self.tabpieces2.grid(column=2, row = 3)
 		
-		
-	#====== Génération de la grille ======
+
 	def initGrille(self):
+		"""Génération de la grille"""
 		L = 0 #var décalage en X
 		H = 0 #var décalage en Y
 		for i in range(HAUT):               #Board.width
@@ -288,10 +288,10 @@ class InterfaceJeu(tk.Frame):
 			H += TAILLE_CARREAU
 			L = 0
 
-	#====== Fonction qui change les couleurs des carreaux ======
 	def find(self):
-		for i in range(LARG):
-			for j in range(HAUT):
+		"""Fonction qui change les couleurs des carreaux"""
+		for j in range(len(self.board.matrix)):
+			for i in range(len(self.board.matrix[j])):
 				if self.board.matrix[j][i] == 1:
 					tag = str(i)+"-"+str(j)
 					C = self.canvas.find_withtag(tag)
@@ -301,8 +301,8 @@ class InterfaceJeu(tk.Frame):
 					C = self.canvas.find_withtag(tag)
 					self.canvas.itemconfigure(C, fill = "red")
 
-	#====== Fonction qui cherche où l'on clique ======
 	def pointeur(self, event):
+		"""Fonction qui cherche où l'on clique"""
 		#global type de pièce
 		Coord = ["IsValid", "X", "Y"]
 		if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+LARG*TAILLE_CARREAU):
