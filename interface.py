@@ -96,7 +96,9 @@ class InterfaceJeu(tk.Frame):
 
 		self.canvas.bind("<Button-1>", self.pointeur)
 		self.canvas.grid(column=1, row=1)
-		self.erreur=tk.Label(text="").grid(column=1, row=1)
+		self.erreur=tk.Label(text="")
+		self.erreur.grid(column=1, row=1)
+
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
 			def tab1(event):
