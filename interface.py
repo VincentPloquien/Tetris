@@ -102,22 +102,24 @@ class InterfaceJeu(tk.Frame):
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
 			def tab1(event):
-				txt1=tabpieces0.create_text(200,200,text="click")
+				self.txt1=self.listePieces[0]
 			def tab2(event):
-				txt2=tabpieces1.create_text(50,50,text="click")
+				self.txt1=self.listePieces[1]
 			def tab3(event):
-				txt3=tabpieces2.create_text(50,50,text="click")
-			tabpieces0 = tk.Canvas(self, background='thistle1')
-			tabpieces0.grid(column=0, row = 3)
-			tabpieces0.bind("<Button-1>",tab1)
+				self.txt1=self.listePieces[2]
+			self.tabpieces0 = tk.Canvas(self, width=(100), height=(100), background='thistle1')
+			self.tabpieces0.grid(column=0, row = 3)
+			self.tabpieces0.bind("<Button-1>",tab1)
 
-			tabpieces1 = tk.Canvas(self, background='thistle2')
-			tabpieces1.grid(column=1, row = 3)
-			tabpieces1.bind("<Button-1>",tab2)
+			self.tabpieces1 = tk.Canvas(self,width=(100), height=(100), background='thistle2')
+			self.tabpieces1.grid(column=1, row = 3)
+			self.tabpieces1.bind("<Button-1>",tab2)
 
-			tabpieces2 = tk.Canvas(self, background='thistle3')
-			tabpieces2.grid(column=2, row = 3)
-			tabpieces2.bind("<Button-1>",tab3)
+			self.tabpieces2 = tk.Canvas(self,width=(100), height=(100), background='thistle3')
+			self.tabpieces2.grid(column=2, row = 3)
+			self.tabpieces2.bind("<Button-1>",tab3)
+
+			self.PièceInit()
 		elif self.parent.mode == "random":
 			# TODO Finir le mode aléatoire
 			pass
@@ -166,6 +168,62 @@ class InterfaceJeu(tk.Frame):
 			[1]
 		])) # Colonne x3
 
+
+	def PièceInit(self):
+		L = 0 #var décalage en X
+		H = 0 #var décalage en Y
+		self.listePieces = []
+		for i in range(3):
+			self.listePieces.append(self.board.getRandomPiece())
+
+		S1 = self.listePieces[0].shape
+		for y in range(len(S1)):
+			for x in range(len(S1[y])):
+				if S1[y][x] == 1 :
+					Pt = self.tabpieces0.create_rectangle(20+L,
+												20+H,
+												20+L+TAILLE_CARREAU,
+												20+H+TAILLE_CARREAU,
+												fill = 'blue')
+					L += TAILLE_CARREAU
+			H += TAILLE_CARREAU
+			L = 0
+		self.tabpieces2.grid(column=0, row = 2)
+		L = 0 #var décalage en X
+		H = 0 #var décalage en Y
+
+		S1 = self.listePieces[1].shape
+		for y in range(len(S1)):
+			for x in range(len(S1[y])):
+				if S1[y][x] == 1 :
+					Pt = self.tabpieces1.create_rectangle(20+L,
+												20+H,
+												20+L+TAILLE_CARREAU,
+												20+H+TAILLE_CARREAU,
+												fill = 'blue')
+					L += TAILLE_CARREAU
+			H += TAILLE_CARREAU
+			L = 0
+		self.tabpieces2.grid(column=1, row = 2)
+
+		L = 0 #var décalage en X
+		H = 0 #var décalage en Y
+
+		S1 = self.listePieces[2].shape
+		for y in range(len(S1)):
+			for x in range(len(S1[y])):
+				if S1[y][x] == 1 :
+					Pt = self.tabpieces2.create_rectangle(20+L,
+												20+H,
+												20+L+TAILLE_CARREAU,
+												20+H+TAILLE_CARREAU,
+												fill = 'blue')
+					L += TAILLE_CARREAU
+			H += TAILLE_CARREAU
+			L = 0
+		self.tabpieces2.grid(column=2, row = 2)
+		
+		
 	#====== Génération de la grille ======
 	def initGrille(self):
 		L = 0 #var décalage en X
@@ -218,7 +276,7 @@ class InterfaceJeu(tk.Frame):
 		if (Coord[0] == "Valid"):
 			ligne = self.board.getPieceAtIndex(0)
 			try:
-				self.board.placePiece(ligne, Coord[1], Coord[2], color = self.cpt_tour)
+				self.board.placePiece(self.txt1, Coord[1], Coord[2], color = self.cpt_tour)
 			except PlacementException as e:
 				# La pièce n'as pas pu être placée
 				print(e.args[0])
