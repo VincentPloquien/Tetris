@@ -83,9 +83,7 @@ class InterfaceJeu(tk.Frame):
 		self.cpt_tour = 1
 		self.piece_choisie = None
 		self.listePieces = []
-
-		# TODO : Changer la taille en fonction de self.parent.taille
-		self.board = Board(LARG, HAUT)
+		self.board = None
 
 		### Init interface
 		self.initInterface()
@@ -94,7 +92,7 @@ class InterfaceJeu(tk.Frame):
 		self.canvas = tk.Canvas(self, width=(PIX_L_INTERFACE+LARG*TAILLE_CARREAU), height=(PIX_H_INTERFACE+HAUT*TAILLE_CARREAU), background='white') #Board.widthm Board.height	initGrille()
 		self.canvas.bind("<Button-1>", self.pointeur)
 		self.canvas.grid(column=1, row=2)
-		self.creation_des_pieces()
+		self.initBoard()
 		self.initGrille()
 		self.find()
 
@@ -144,33 +142,71 @@ class InterfaceJeu(tk.Frame):
 		self.erreur = tk.Label(self, text="")
 		self.erreur.grid(column=1, row=1)
 
-	def creation_des_pieces(self):
-		"""Création de toutes les pièces pouvant être jouées"""
-		self.board.addPiece(Piece([
-			[1, 1]
-		])) # Ligne x2
-		self.board.addPiece(Piece([
-			[1],
-			[1]
-		])) # Colonne x2
+	def initBoard(self):
+		"""Initialisation du backend & Création de toutes les pièces pouvant être jouées"""
+		taille = 6
+		if self.parent.taille == "petit":
+			taille = 6
+		elif self.parent.taille == "moyen":
+			taille = 10
+		elif self.parent.taille == "grand":
+			taille = 14
+		self.board = Board(taille, taille)
+
+
 		self.board.addPiece(Piece([
 			[1, 1],
 			[1, 1]
-		])) # Carre 2x2
+		])) # Carre
+
 		self.board.addPiece(Piece([
 			[1, 0],
 			[1, 1],
 			[0, 1]
-		])) # ZigZag 2x3
+		])) # ZigZag vertical
+		self.board.addPiece(Piece([
+			[1, 1, 0],
+			[0, 1, 1]
+		])) # ZigZag horizontal
+
+		self.board.addPiece(Piece([
+			[1, 0],
+			[1, 0],
+			[1, 1]
+		])) # L vertical
+		self.board.addPiece(Piece([
+			[1, 1],
+			[0, 1],
+			[0, 1]
+		])) # L vertical
+
+		self.board.addPiece(Piece([
+			[1, 1, 1],
+			[0, 0, 1]
+		])) # L horizontal
+		self.board.addPiece(Piece([
+			[1, 0, 0],
+			[1, 1, 1]
+		])) # L horizontal
+
+		self.board.addPiece(Piece([
+			[1, 0],
+			[1, 1],
+			[1, 0]
+		])) # Triangle vertical
+		self.board.addPiece(Piece([
+			[1, 1, 1],
+			[0, 1, 0]
+		])) # Triangle horizontal
+
 		self.board.addPiece(Piece([
 			[1, 1, 1]
-		])) # Ligne x3
+		])) # Ligne
 		self.board.addPiece(Piece([
 			[1],
 			[1],
 			[1]
-		])) # Colonne x3
-
+		])) # Colonne
 
 	def initChoix(self):
 		cpt = 0
@@ -302,18 +338,23 @@ class InterfaceJeu(tk.Frame):
 			# print(self.board.matrix)
 
 	def reset(self):
-		# TODO A finir (nettoyer le canvas)
+		"""Replace tout le jeu à son état initial et relance une partie"""
+		# Reset des variables
 		self.scoreJ1 = self.scoreJ2 = 0
 		self.piece_choisie = None
-		self.board = Board(LARG, HAUT)
-		self.creation_des_pieces()
-		del self.piece_choisie
+		self.listePieces = []
+		
+		# Reset des canvas
 		self.canvas.delete("all")
 		self.tabpieces0.delete("all")
 		self.tabpieces1.delete("all")
 		self.tabpieces2.delete("all")
 
-		self.listePieces = []
+		# Reset du tableau de jeu
+		self.board = Board(LARG, HAUT)
+
+		# Re-init
+		self.initBoard()
 		self.initGrille()
 		self.initChoix()
 
