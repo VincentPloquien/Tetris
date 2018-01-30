@@ -170,11 +170,19 @@ class InterfaceJeu(tk.Frame):
 
 
 	def PièceInit(self):
+		cpt = 0
 		L = 0 #var décalage en X
 		H = 0 #var décalage en Y
 		self.listePieces = []
-		for i in range(3):
-			self.listePieces.append(self.board.getRandomPiece())
+		while cpt < 3:
+			if cpt == 0 :
+				self.listePieces.append(self.board.getRandomPiece())
+				cpt =1
+			else :
+				pt = self.board.getRandomPiece()
+				if(pt not in self.listePieces):
+					self.listePieces.append(pt)
+					cpt += 1
 
 		S1 = self.listePieces[0].shape
 
