@@ -188,7 +188,7 @@ class InterfaceJeu(tk.Frame):
 					L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
 			L = 0
-		self.tabpieces2.grid(column=0, row = 2)
+		self.tabpieces2.grid(column=0, row = 3)
 		L = 0 #var décalage en X
 		H = 0 #var décalage en Y
 
@@ -204,7 +204,7 @@ class InterfaceJeu(tk.Frame):
 					L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
 			L = 0
-		self.tabpieces2.grid(column=1, row = 2)
+		self.tabpieces2.grid(column=1, row = 3)
 
 		L = 0 #var décalage en X
 		H = 0 #var décalage en Y
@@ -221,7 +221,7 @@ class InterfaceJeu(tk.Frame):
 					L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
 			L = 0
-		self.tabpieces2.grid(column=2, row = 2)
+		self.tabpieces2.grid(column=2, row = 3)
 		
 		
 	#====== Génération de la grille ======
