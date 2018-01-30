@@ -96,6 +96,8 @@ class InterfaceJeu(tk.Frame):
 
 		self.canvas.bind("<Button-1>", self.pointeur)
 		self.canvas.grid(column=1, row=1)
+		self.erreur=tk.Label(text="")
+		self.erreur.grid(column=1, row=1)
 
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
@@ -278,6 +280,9 @@ class InterfaceJeu(tk.Frame):
 			except PlacementException as e:
 				# La pièce n'as pas pu être placée
 				print(e.args[0])
+				self.erreur.config(text=e.args[0])
+				self.after(500, lambda:self.erreur.config(text=""))
+				return
 				# TODO Montrer le message d'erreur à l'utilisateur et annuler le placement proprement
 			self.find()
 			if self.cpt_tour == 1 :

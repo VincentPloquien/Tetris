@@ -56,6 +56,10 @@ class Board:
 		# Vérification de validité
 		for i, line in enumerate(shape):
 			for j, pixel in enumerate(line):
+				# On ne vérifie pas les pixels de "structure" de la forme
+				if pixel == 0:
+					break
+
 				# Vérification de l'emplacement
 				isFree = False
 				try:
@@ -69,7 +73,8 @@ class Board:
 		# Placement de la pièce
 		for i, line in enumerate(shape):
 			for j, pixel in enumerate(line):
-				self.matrix[y + i][x + j] = color
+				if not pixel == 0:
+					self.matrix[y + i][x + j] = color
 
 	# Bibliothèques de pièces
 
