@@ -95,8 +95,8 @@ class InterfaceJeu(tk.Frame):
 		self.find()
 
 		self.canvas.bind("<Button-1>", self.pointeur)
-		self.canvas.grid(column=1, row=1)
-		self.erreur=tk.Label(text="")
+		self.canvas.grid(column=1, row=2)
+		self.erreur=tk.Label(self, text="")
 		self.erreur.grid(column=1, row=1)
 
 		if self.parent.mode == "standard":
@@ -108,15 +108,15 @@ class InterfaceJeu(tk.Frame):
 			def tab3(event):
 				txt3=tabpieces2.create_text(50,50,text="click")
 			tabpieces0 = tk.Canvas(self, background='thistle1')
-			tabpieces0.grid(column=0, row = 2)
+			tabpieces0.grid(column=0, row = 3)
 			tabpieces0.bind("<Button-1>",tab1)
 
 			tabpieces1 = tk.Canvas(self, background='thistle2')
-			tabpieces1.grid(column=1, row = 2)
+			tabpieces1.grid(column=1, row = 3)
 			tabpieces1.bind("<Button-1>",tab2)
 
 			tabpieces2 = tk.Canvas(self, background='thistle3')
-			tabpieces2.grid(column=2, row = 2)
+			tabpieces2.grid(column=2, row = 3)
 			tabpieces2.bind("<Button-1>",tab3)
 		elif self.parent.mode == "random":
 			# TODO Finir le mode aléatoire
@@ -135,7 +135,7 @@ class InterfaceJeu(tk.Frame):
 		
 		# Label score J2
 		self.j2= tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
-		self.j2.grid(column=3, row=0)
+		self.j2.grid(column=2, row=0)
 		tk.Label(self.j2, text="joueur 2:").pack(padx=10, pady=2)
 		tk.Label(self.j2, text=self.scoreJ2).pack()
 
@@ -223,7 +223,7 @@ class InterfaceJeu(tk.Frame):
 				# La pièce n'as pas pu être placée
 				print(e.args[0])
 				self.erreur.config(text=e.args[0])
-				self.after(500, lambda:self.erreur.config(text=""))
+				self.after(1000, lambda:self.erreur.config(text=""))
 				return
 				# TODO Montrer le message d'erreur à l'utilisateur et annuler le placement proprement
 			self.find()
