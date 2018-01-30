@@ -170,22 +170,31 @@ class InterfaceJeu(tk.Frame):
 
 
 	def PièceInit(self):
+		cpt = 0
 		L = 0 #var décalage en X
 		H = 0 #var décalage en Y
 		self.listePieces = []
-		for i in range(3):
-			self.listePieces.append(self.board.getRandomPiece())
+		while cpt < 3:
+			if cpt == 0 :
+				self.listePieces.append(self.board.getRandomPiece())
+				cpt =1
+			else :
+				pt = self.board.getRandomPiece()
+				if(pt not in self.listePieces):
+					self.listePieces.append(pt)
+					cpt += 1
 
 		S1 = self.listePieces[0].shape
+
 		for y in range(len(S1)):
-			for x in range(len(S1[y])):
+			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
 					Pt = self.tabpieces0.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
 												fill = 'blue')
-					L += TAILLE_CARREAU
+				L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
 			L = 0
 		self.tabpieces2.grid(column=0, row = 3)
@@ -194,14 +203,14 @@ class InterfaceJeu(tk.Frame):
 
 		S1 = self.listePieces[1].shape
 		for y in range(len(S1)):
-			for x in range(len(S1[y])):
+			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
 					Pt = self.tabpieces1.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
 												fill = 'blue')
-					L += TAILLE_CARREAU
+				L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
 			L = 0
 		self.tabpieces2.grid(column=1, row = 3)
@@ -211,14 +220,14 @@ class InterfaceJeu(tk.Frame):
 
 		S1 = self.listePieces[2].shape
 		for y in range(len(S1)):
-			for x in range(len(S1[y])):
+			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
 					Pt = self.tabpieces2.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
 												fill = 'blue')
-					L += TAILLE_CARREAU
+				L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
 			L = 0
 		self.tabpieces2.grid(column=2, row = 3)
