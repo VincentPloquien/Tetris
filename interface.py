@@ -336,6 +336,9 @@ class InterfaceJeu(tk.Frame):
 				self.cpt_tour = 2
 			else :
 				self.cpt_tour = 1
+			
+			if self.board.isBoardFull():
+				tk.messagebox.showinfo("Victoire !", "Bravo ! Le joueur {} à remporté la partie.".format(self.cpt_tour))
 			# print(self.board.matrix)
 
 	def reset(self):
