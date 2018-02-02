@@ -1,4 +1,7 @@
 # G08
+# PITHON Mathieu
+# PLOQUIEN Vincent
+# PREVOST Thomas
 
 """Le backend gère toute la partie logique du jeu
 (gestion du plateau, test de placement, ...)"""
