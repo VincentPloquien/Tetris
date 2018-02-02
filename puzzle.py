@@ -154,7 +154,7 @@ class InterfaceJeu(tk.Frame):
 		# Label "score J2"
 		self.j2= tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
 		self.j2.grid(column=2, row=0)
-		tk.Label(self.j2, text="joueur 2:").pack(padx=10, pady=2)
+		tk.Label(self.j2, text="Joueur 2:").pack(padx=10, pady=2)
 		tk.Label(self.j2, text=self.scoreJ2).pack()
 
 		# Label message d'erreur
