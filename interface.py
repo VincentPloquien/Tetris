@@ -5,8 +5,6 @@ import tkinter.messagebox as box
 from backend import Board, Piece, PlacementException
 #importation des bibliothèques
 
-LARG = 16    #Largeur de la grille (a remplacer par Board.width)
-HAUT = 16    #Hauteur de la grille (a remplacer par Board.height)
 PIX_H_INTERFACE = 3   #Place pour le reste des trucs
 PIX_L_INTERFACE = 3   #Place pour le reste des trucs
 TAILLE_CARREAU = 25 #Coté de chaque carreau de la grille en pixel
@@ -81,32 +79,29 @@ class InterfaceJeu(tk.Frame):
 		self.scoreJ1 = 3
 		self.scoreJ2 = 1
 		self.cpt_tour = 1
+		self.largeur = 6
+		self.piece_choisie = None
+		self.listePieces = []
+		self.board = None
 
-		# TODO : Changer la taille en fonction de self.parent.taille
-		self.board = Board(LARG, HAUT)
-
-		### Init fenêtre
-		self.scores()
+		### Init interface
+		self.initInterface()
 
 		# Init plateau de jeu
-		self.canvas = tk.Canvas(self, width=(PIX_L_INTERFACE+LARG*TAILLE_CARREAU), height=(PIX_H_INTERFACE+HAUT*TAILLE_CARREAU), background='white') #Board.widthm Board.height	initGrille()
-		self.creation_des_pieces()
+		self.initBoard()
 		self.initGrille()
 		self.find()
 
-		self.canvas.bind("<Button-1>", self.pointeur)
-		self.canvas.grid(column=1, row=2)
-		self.erreur=tk.Label(self, text="")
-		self.erreur.grid(column=1, row=1)
-
+		# Gestion du mode de jeu
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
-			def tab1(event):
-				self.txt1=self.listePieces[0]
-			def tab2(event):
-				self.txt1=self.listePieces[1]
-			def tab3(event):
-				self.txt1=self.listePieces[2]
+			def tab1(_):
+				self.piece_choisie=self.listePieces[0]
+			def tab2(_):
+				self.piece_choisie=self.listePieces[1]
+			def tab3(_):
+				self.piece_choisie=self.listePieces[2]
+				
 			self.tabpieces0 = tk.Canvas(self, width=(100), height=(100), background='thistle1')
 			self.tabpieces0.grid(column=0, row = 3)
 			self.tabpieces0.bind("<Button-1>",tab1)
@@ -119,12 +114,12 @@ class InterfaceJeu(tk.Frame):
 			self.tabpieces2.grid(column=2, row = 3)
 			self.tabpieces2.bind("<Button-1>",tab3)
 
-			self.PièceInit()
+			self.initChoix()
 		elif self.parent.mode == "random":
 			# TODO Finir le mode aléatoire
 			pass
 
-	def scores(self):
+	def initInterface(self):
 		# Label mode de jeu
 		self.modeLabel = tk.Label(self, text="Mode {}".format(self.parent.mode))
 		self.modeLabel.grid(column=1, row=0)
@@ -141,46 +136,94 @@ class InterfaceJeu(tk.Frame):
 		tk.Label(self.j2, text="joueur 2:").pack(padx=10, pady=2)
 		tk.Label(self.j2, text=self.scoreJ2).pack()
 
-	def creation_des_pieces(self):
-		"""Création de toutes les pièces pouvant être jouées"""
-		self.board.addPiece(Piece([
-			[1, 1]
-		])) # Ligne x2
-		self.board.addPiece(Piece([
-			[1],
-			[1]
-		])) # Colonne x2
+		# Label message d'erreur
+		self.erreur = tk.Label(self, text="")
+		self.erreur.grid(column=1, row=1)
+
+		self.canvas = tk.Canvas(self, background='white')
+		self.canvas.bind("<Button-1>", self.pointeur)
+		self.canvas.grid(column=1, row=2)
+
+	def initBoard(self):
+		"""Initialisation du backend & Création de toutes les pièces pouvant être jouées"""
+		# Gestion de la taille du plateau
+		if self.parent.taille == "petit":
+			self.largeur = 6
+		elif self.parent.taille == "moyen":
+			self.largeur = 10
+		elif self.parent.taille == "grand":
+			self.largeur = 14
+
+		# Init du Board et Canvas
+		self.board = Board(self.largeur, self.largeur)
+		self.canvas.config(width=(PIX_L_INTERFACE+self.largeur*TAILLE_CARREAU), height=(PIX_H_INTERFACE+self.largeur*TAILLE_CARREAU))
+		print(self.largeur)
+
 		self.board.addPiece(Piece([
 			[1, 1],
 			[1, 1]
-		])) # Carre 2x2
+		])) # Carre
+
 		self.board.addPiece(Piece([
 			[1, 0],
 			[1, 1],
 			[0, 1]
-		])) # ZigZag 2x3
+		])) # ZigZag vertical
+		self.board.addPiece(Piece([
+			[1, 1, 0],
+			[0, 1, 1]
+		])) # ZigZag horizontal
+
+		self.board.addPiece(Piece([
+			[1, 0],
+			[1, 0],
+			[1, 1]
+		])) # L vertical
+		self.board.addPiece(Piece([
+			[1, 1],
+			[0, 1],
+			[0, 1]
+		])) # L vertical
+
+		self.board.addPiece(Piece([
+			[1, 1, 1],
+			[0, 0, 1]
+		])) # L horizontal
+		self.board.addPiece(Piece([
+			[1, 0, 0],
+			[1, 1, 1]
+		])) # L horizontal
+
+		self.board.addPiece(Piece([
+			[1, 0],
+			[1, 1],
+			[1, 0]
+		])) # Triangle vertical
+		self.board.addPiece(Piece([
+			[1, 1, 1],
+			[0, 1, 0]
+		])) # Triangle horizontal
+
 		self.board.addPiece(Piece([
 			[1, 1, 1]
-		])) # Ligne x3
+		])) # Ligne
 		self.board.addPiece(Piece([
 			[1],
 			[1],
 			[1]
-		])) # Colonne x3
+		])) # Colonne
 
-
-	def PièceInit(self):
+	def initChoix(self):
 		cpt = 0
 		L = 0 #var décalage en X
 		H = 0 #var décalage en Y
-		self.listePieces = []
 		while cpt < 3:
 			if cpt == 0 :
 				self.listePieces.append(self.board.getRandomPiece())
 				cpt =1
 			else :
 				pt = self.board.getRandomPiece()
-				if(pt not in self.listePieces):
+				if pt not in self.listePieces:
 					self.listePieces.append(pt)
 					cpt += 1
 
@@ -189,7 +232,7 @@ class InterfaceJeu(tk.Frame):
 		for y in range(len(S1)):
 			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
-					Pt = self.tabpieces0.create_rectangle(20+L,
+					self.tabpieces0.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
@@ -205,7 +248,7 @@ class InterfaceJeu(tk.Frame):
 		for y in range(len(S1)):
 			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
-					Pt = self.tabpieces1.create_rectangle(20+L,
+					self.tabpieces1.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
@@ -222,7 +265,7 @@ class InterfaceJeu(tk.Frame):
 		for y in range(len(S1)):
 			for x in range(0, len(S1[y])):
 				if S1[y][x] == 1 :
-					Pt = self.tabpieces2.create_rectangle(20+L,
+					self.tabpieces2.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
 												20+H+TAILLE_CARREAU,
@@ -231,16 +274,15 @@ class InterfaceJeu(tk.Frame):
 			H += TAILLE_CARREAU
 			L = 0
 		self.tabpieces2.grid(column=2, row = 3)
-		
-		
-	#====== Génération de la grille ======
+
 	def initGrille(self):
+		"""Génération de la grille"""
 		L = 0 #var décalage en X
 		H = 0 #var décalage en Y
-		for i in range(HAUT):               #Board.width
-			for j in range(LARG):           #Board.height
+		for i, ligne in enumerate(self.board.matrix):
+			for j, pixel in enumerate(ligne):
 				tag = str(j)+"-"+str(i)     #Création du tag de chaque carreau
-				Pt = self.canvas.create_rectangle(PIX_L_INTERFACE/2+L,
+				self.canvas.create_rectangle(PIX_L_INTERFACE/2+L,
 											PIX_H_INTERFACE/2+H,
 											PIX_L_INTERFACE/2+L+TAILLE_CARREAU,
 											PIX_H_INTERFACE/2+H+TAILLE_CARREAU,
@@ -250,24 +292,21 @@ class InterfaceJeu(tk.Frame):
 			H += TAILLE_CARREAU
 			L = 0
 
-	#====== Fonction qui change les couleurs des carreaux ======
 	def find(self):
-		for i in range(LARG):
-			for j in range(HAUT):
-				if self.board.matrix[j][i] == 1:
-					tag = str(i)+"-"+str(j)
-					C = self.canvas.find_withtag(tag)
+		"""Fonction qui change les couleurs des carreaux"""
+		for i, ligne in enumerate(self.board.matrix):
+			for j, pixel in enumerate(ligne):
+				tag = str(j)+"-"+str(i)
+				C = self.canvas.find_withtag(tag)
+				if pixel == 1:
 					self.canvas.itemconfigure(C, fill = "green")
-				if (self.board.matrix[j][i] == 2) :
-					tag = str(i)+"-"+str(j)
-					C = self.canvas.find_withtag(tag)
+				if pixel == 2:
 					self.canvas.itemconfigure(C, fill = "red")
 
-	#====== Fonction qui cherche où l'on clique ======
 	def pointeur(self, event):
-		#global type de pièce
+		"""Fonction qui cherche où l'on clique"""
 		Coord = ["IsValid", "X", "Y"]
-		if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+LARG*TAILLE_CARREAU):
+		if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+self.largeur*TAILLE_CARREAU):
 			X_Carreau = int(abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU)
 			Coord[0] = "Valid"
 			Coord[1] = X_Carreau
@@ -275,20 +314,19 @@ class InterfaceJeu(tk.Frame):
 		else :
 			Coord[0] = "Not_Valid"
 
-		if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+HAUT*TAILLE_CARREAU and Coord[0] == "Valid"):
-			Y_Carreau = int(abs((((PIX_H_INTERFACE+HAUT*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)-(HAUT-1)))
+		if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+self.largeur*TAILLE_CARREAU and Coord[0] == "Valid"):
+			Y_Carreau = int(abs((((PIX_H_INTERFACE+self.largeur*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)-(self.largeur-1)))
 			Coord[2] = Y_Carreau
 			# print(Y_Carreau)
 		else :
 			Coord[0] = "Not_Valid"
 		
 		if (Coord[0] == "Valid"):
-			ligne = self.board.getPieceAtIndex(0)
 			try:
-				self.board.placePiece(self.txt1, Coord[1], Coord[2], color = self.cpt_tour)
+				self.board.placePiece(self.piece_choisie, Coord[1], Coord[2], color = self.cpt_tour)
 			except PlacementException as e:
 				# La pièce n'as pas pu être placée
-				print(e.args[0])
+				# print(e.args[0])
 				self.erreur.config(text=e.args[0])
 				self.after(1000, lambda:self.erreur.config(text=""))
 				return
@@ -301,19 +339,22 @@ class InterfaceJeu(tk.Frame):
 			# print(self.board.matrix)
 
 	def reset(self):
-		# TODO A finir (nettoyer le canvas)
+		"""Replace tout le jeu à son état initial et relance une partie"""
+		# Reset des variables
 		self.scoreJ1 = self.scoreJ2 = 0
-		self.board = Board(LARG, HAUT)
-		self.creation_des_pieces()
-		del self.txt1
+		self.piece_choisie = None
+		self.listePieces = []
+		
+		# Reset des canvas
 		self.canvas.delete("all")
 		self.tabpieces0.delete("all")
 		self.tabpieces1.delete("all")
 		self.tabpieces2.delete("all")
 
-		self.listePieces = []
+		# Re-init
+		self.initBoard()
 		self.initGrille()
-		self.PièceInit()
+		self.initChoix()
 
 
 # Lancement du programme
