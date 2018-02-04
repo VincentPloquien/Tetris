@@ -135,7 +135,6 @@ class InterfaceJeu(tk.Frame):
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
 			def abandon():
-				
 				# Mise à jour des scores
 				if self.cpt_tour == 1:
 					tk.messagebox.showinfo(
@@ -410,6 +409,9 @@ class InterfaceJeu(tk.Frame):
 		"""Gère le clic sur un carreau et le placement de la pièce"""
 		Coord = ["IsValid", "X", "Y"]
 
+		if self.parent.DEBUG:
+			pprint.pprint(self.board.matrix)
+
 		# Vérifie la position de la souris en X
 		if (event.x > PIX_L_INTERFACE/2
 		and event.x < PIX_L_INTERFACE/2+self.largeur*TAILLE_CARREAU):
@@ -461,20 +463,18 @@ class InterfaceJeu(tk.Frame):
 			# Passage au joueur suivant
 			if self.cpt_tour == 1:
 				self.cpt_tour = 2
-				self.j1.config(relief=tk.FLAT)
-				self.j2.config(relief=tk.SUNKEN)
+				self.j1.config(background='white')
+				self.j2.config(background='red')
 			else:
 				self.cpt_tour = 1
-				self.j1.config(relief=tk.SUNKEN)
-				self.j2.config(relief=tk.FLAT)
+				self.j1.config(background='green')
+				self.j2.config(background='white')
 			
 			# Vérifie si la partie est finie
 			if self.board.isBoardFull():
 				tk.messagebox.showinfo(
 					"Victoire !",
 					"Bravo ! Le joueur {} à remporté la partie.".format(self.cpt_tour))
-			if self.parent.DEBUG:
-				pprint.pprint(self.board.matrix)
 
 	def reset(self):
 		"""Replace tout le jeu à son état initial et relance une partie"""
@@ -490,6 +490,8 @@ class InterfaceJeu(tk.Frame):
 		self.tabpieces2.delete("all")
 
 		# Reset de l'interface
+		self.j1.config(background="white")
+		self.j2.config(background="white")
 		self.abandonner.config(state=tk.NORMAL)
 		self.canvas.bind("<Button-1>", self.pointeur)
 
