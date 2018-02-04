@@ -167,7 +167,7 @@ class InterfaceJeu(tk.Frame):
 			# Création de chaque canvas contenant les pièces à jouer	
 			self.tabpieces0 = tk.Canvas(self,
 				width=(100), height=(100),
-				background='thistle1')
+				background='thistle2')
 			self.tabpieces0.grid(column=0, row = 3)
 			self.tabpieces0.bind("<Button-1>",tab1)
 
@@ -179,7 +179,7 @@ class InterfaceJeu(tk.Frame):
 
 			self.tabpieces2 = tk.Canvas(self,
 				width=(100), height=(100),
-				background='thistle3')
+				background='thistle2')
 			self.tabpieces2.grid(column=2, row = 3)
 			self.tabpieces2.bind("<Button-1>",tab3)
 
