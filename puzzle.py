@@ -139,6 +139,7 @@ class InterfaceJeu(tk.Frame):
 					"Victoire !",
 					"Bravo ! Le joueur {} à remporté la partie par abandon.".format(self.cpt_tour))
 				self.scoreJ1+=1
+				self.j1.grid(column=1, row=0)
 				
 				self.reset()
 				pass
@@ -186,13 +187,13 @@ class InterfaceJeu(tk.Frame):
 		self.j1 = tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
 		self.j1.grid(column=0, row=0)
 		tk.Label(self.j1, text="Joueur 1").pack(padx=10, pady=2)
-		tk.Label(self.j1, text=self.scoreJ1).pack()
+		self.scj1= tk.Label(self.j1, text=self.scoreJ1).pack()
 		
 		# Label "score J2"
 		self.j2= tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
 		self.j2.grid(column=2, row=0)
 		tk.Label(self.j2, text="Joueur 2:").pack(padx=10, pady=2)
-		tk.Label(self.j2, text=self.scoreJ2).pack()
+		self.scj2= tk.Label(self.j2, text=self.scoreJ2).pack()
 
 		# Label message d'erreur
 		self.erreur = tk.Label(self, text="")
@@ -318,7 +319,6 @@ class InterfaceJeu(tk.Frame):
 		for ligne in piece:
 			for pixel in ligne:
 				if pixel == 1 :
-					print(self,len(piece), len(piece[0]))
 					plc = self.centrage(len(piece),len(piece[0]))
 					self.tabpieces0.create_rectangle(plc[0]+L,
 												plc[1]+H,
