@@ -266,11 +266,29 @@ class InterfaceJeu(tk.Frame):
 			[1],
 			[1]
 		])) # Colonne
+	def centrage(self,x,y):
+		ctr=[]
+		if y == 1 :
+			ctr.append(50 - (TAILLE_CARREAU+1)/2)
+		elif y == 2 :
+			ctr.append(50 - TAILLE_CARREAU)
+		elif y == 3 :
+			ctr.append(50 - (TAILLE_CARREAU+(TAILLE_CARREAU+1)/2))
+			
+		if x == 1 :
+			ctr.append(50 - (TAILLE_CARREAU+1)/2)
+		elif x == 2 :
+			ctr.append(50 - TAILLE_CARREAU)
+		elif x == 3 :
+			ctr.append(50 - (TAILLE_CARREAU+(TAILLE_CARREAU+1)/2))
+		
+		return(ctr)
 
 	def initChoix(self):
 		"""Initialisation du canvas de choix des pièces"""
 		
 		# Création d'une liste de 3 pièces à jouer uniques et aléatoires
+		plc = []
 		cpt = 0
 		while cpt < 3:
 			if cpt == 0 :
@@ -290,10 +308,12 @@ class InterfaceJeu(tk.Frame):
 		for ligne in piece:
 			for pixel in ligne:
 				if pixel == 1 :
-					self.tabpieces0.create_rectangle(20+L,
-												20+H,
-												20+L+TAILLE_CARREAU,
-												20+H+TAILLE_CARREAU,
+					print(self,len(piece), len(piece[0]))
+					plc = self.centrage(len(piece),len(piece[0]))
+					self.tabpieces0.create_rectangle(plc[0]+L,
+												plc[1]+H,
+												plc[0]+L+TAILLE_CARREAU,
+												plc[1]+H+TAILLE_CARREAU,
 												fill = 'blue')
 				L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
@@ -306,10 +326,11 @@ class InterfaceJeu(tk.Frame):
 		for ligne in piece:
 			for pixel in ligne:
 				if pixel == 1 :
-					self.tabpieces1.create_rectangle(20+L,
-												20+H,
-												20+L+TAILLE_CARREAU,
-												20+H+TAILLE_CARREAU,
+					plc = self.centrage(len(piece),len(piece[0]))
+					self.tabpieces1.create_rectangle(plc[0]+L,
+												plc[1]+H,
+												plc[0]+L+TAILLE_CARREAU,
+												plc[1]+H+TAILLE_CARREAU,
 												fill = 'blue')
 				L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
@@ -322,10 +343,11 @@ class InterfaceJeu(tk.Frame):
 		for ligne in piece:
 			for pixel in ligne:
 				if pixel == 1 :
-					self.tabpieces2.create_rectangle(20+L,
-												20+H,
-												20+L+TAILLE_CARREAU,
-												20+H+TAILLE_CARREAU,
+					plc = self.centrage(len(piece),len(piece[0]))
+					self.tabpieces2.create_rectangle(plc[0]+L,
+												plc[1]+H,
+												plc[0]+L+TAILLE_CARREAU,
+												plc[1]+H+TAILLE_CARREAU,
 												fill = 'blue')
 				L += TAILLE_CARREAU
 			H += TAILLE_CARREAU
