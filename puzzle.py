@@ -195,14 +195,14 @@ class InterfaceJeu(tk.Frame):
 		self.modeLabel.grid(column=1, row=0)
 
 		# Label "score J1"
-		self.j1 = tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
+		self.j1 = tk.Frame(self, borderwidth=1, relief=tk.SUNKEN, background="white")
 		self.j1.grid(column=0, row=0)
 		tk.Label(self.j1, text="Joueur 1").pack(padx=10, pady=2)
 		self.scj1 = tk.Label(self.j1, text=self.scoreJ1)
 		self.scj1.pack()
 		
 		# Label "score J2"
-		self.j2= tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
+		self.j2= tk.Frame(self, borderwidth=1, relief=tk.SUNKEN, background="white")
 		self.j2.grid(column=2, row=0)
 		tk.Label(self.j2, text="Joueur 2:").pack(padx=10, pady=2)
 		self.scj2 = tk.Label(self.j2, text=self.scoreJ2)
