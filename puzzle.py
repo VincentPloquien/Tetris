@@ -103,7 +103,7 @@ class FenetrePrincipale(tk.Frame):
 			'Voulez vous vraiment recommencer une nouvelle partie avec la taille {} ?'.format(taille)):
 			self.taille = taille
 			self.reset()
-	
+
 	def reset(self):
 		"""Demande le reset de la partie"""
 		self.jeu.reset()
@@ -134,13 +134,21 @@ class InterfaceJeu(tk.Frame):
 		# Gestion du mode de jeu
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
+			def abandon():
+				tk.messagebox.showinfo(
+					"Victoire !",
+					"Bravo ! Le joueur {} à remporté la partie par abandon.".format(self.cpt_tour))
+				self.reset()
+				pass
 			def tab1(_):
 				self.piece_choisie=self.listePieces[0]
 			def tab2(_):
 				self.piece_choisie=self.listePieces[1]
 			def tab3(_):
 				self.piece_choisie=self.listePieces[2]
-
+			
+			self.abandonner=tk.Button(self, text="abandonner", command=abandon)
+			self.abandonner.grid(column=2, row=2)
 			# Création de chaque canvas contenant les pièces à jouer	
 			self.tabpieces0 = tk.Canvas(self,
 				width=(100), height=(100),
