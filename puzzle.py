@@ -54,15 +54,25 @@ class FenetrePrincipale(tk.Frame):
 
 		# Menu "Mode de jeu"
 		menu2 = tk.Menu(menubar, tearoff=0)
-		menu2.add_command(label="Standard", command=lambda: self.mode_de_jeu("standard"))
-		menu2.add_command(label="Aléatoire (WIP)", command=lambda: self.mode_de_jeu("random"), state=tk.DISABLED)
+		menu2.add_command(
+			label="Standard",
+			command=lambda: self.mode_de_jeu("standard"))
+		menu2.add_command(
+			label="Aléatoire (WIP)",
+			command=lambda: self.mode_de_jeu("random"), state=tk.DISABLED)
 		menubar.add_cascade(label="Mode de jeu", menu=menu2)
 		
 		# Menu "Taille de jeu"
 		menu3 = tk.Menu(menubar, tearoff=0)
-		menu3.add_command(label="Petit", command=lambda: self.taille_du_jeu("petit"))
-		menu3.add_command(label="Moyen", command=lambda: self.taille_du_jeu("moyen"))
-		menu3.add_command(label="Grand", command=lambda: self.taille_du_jeu("grand"))
+		menu3.add_command(
+			label="Petit",
+			command=lambda: self.taille_du_jeu("petit"))
+		menu3.add_command(
+			label="Moyen",
+			command=lambda: self.taille_du_jeu("moyen"))
+		menu3.add_command(
+			label="Grand",
+			command=lambda: self.taille_du_jeu("grand"))
 		menubar.add_cascade(label="Taille du jeu", menu=menu3)
 
 		# Ajout du menu
@@ -80,13 +90,19 @@ class FenetrePrincipale(tk.Frame):
 	### Jeu
 	def mode_de_jeu(self, mode):
 		"""Gère le menu pour changer le mode de jeu en *mode*"""
-		if box.askyesno('Redémarrage', 'Vous vous apprêtez à recommencer une nouvelle partie en mode {}, êtes vous sûr ?'.format(mode)):
+		if box.askyesno(
+			'Redémarrage',
+			'Voulez vous vraiment recommencer une nouvelle partie en mode {} ?'\
+			.format(mode)):
 			self.mode = mode
 			self.reset()
 	
 	def taille_du_jeu(self, taille):
 		"""Gère le menu pour changer la taille du jeu à *taille*"""
-		if box.askyesno('Redémarrage', 'Vous vous apprêtez à recommencer une nouvelle partie avec la taille {}, êtes vous sûr ?'.format(taille)):
+		if box.askyesno(
+			'Redémarrage',
+			'Voulez vous vraiment recommencer une nouvelle partie avec la taille {} ?'\
+			.format(taille)):
 			self.taille = taille
 			self.reset()
 	
@@ -128,15 +144,21 @@ class InterfaceJeu(tk.Frame):
 				self.piece_choisie=self.listePieces[2]
 
 			# Création de chaque canvas contenant les pièces à jouer	
-			self.tabpieces0 = tk.Canvas(self, width=(100), height=(100), background='thistle1')
+			self.tabpieces0 = tk.Canvas(self,
+				width=(100), height=(100),
+				background='thistle1')
 			self.tabpieces0.grid(column=0, row = 3)
 			self.tabpieces0.bind("<Button-1>",tab1)
 
-			self.tabpieces1 = tk.Canvas(self,width=(100), height=(100), background='thistle2')
+			self.tabpieces1 = tk.Canvas(self,
+				width=(100), height=(100),
+				background='thistle2')
 			self.tabpieces1.grid(column=1, row = 3)
 			self.tabpieces1.bind("<Button-1>",tab2)
 
-			self.tabpieces2 = tk.Canvas(self,width=(100), height=(100), background='thistle3')
+			self.tabpieces2 = tk.Canvas(self,
+				width=(100), height=(100),
+				background='thistle3')
 			self.tabpieces2.grid(column=2, row = 3)
 			self.tabpieces2.bind("<Button-1>",tab3)
 
@@ -174,7 +196,7 @@ class InterfaceJeu(tk.Frame):
 		self.canvas.grid(column=1, row=2)
 
 	def initBoard(self):
-		"""Initialisation du backend & Création de toutes les pièces pouvant être jouées"""
+		"""Initialisation du backend & Création de toutes les pièces jouables"""
 
 		# Gestion de la taille du plateau
 		if self.parent.taille == "petit":
@@ -186,8 +208,11 @@ class InterfaceJeu(tk.Frame):
 
 		# Init du Board et Canvas
 		self.board = Board(self.largeur, self.largeur)
-		self.canvas.config(width=(PIX_L_INTERFACE+self.largeur*TAILLE_CARREAU), height=(PIX_H_INTERFACE+self.largeur*TAILLE_CARREAU))
-		if self.parent.DEBUG: print("Largeur du plateau: ", self.largeur)
+		self.canvas.config(
+			width=(PIX_L_INTERFACE+self.largeur*TAILLE_CARREAU),
+			height=(PIX_H_INTERFACE+self.largeur*TAILLE_CARREAU))
+		if self.parent.DEBUG:
+			print("Largeur du plateau: ", self.largeur)
 
 		# Ajout des différentes pièces dans la librairie
 		self.board.addPiece(Piece([
@@ -264,9 +289,9 @@ class InterfaceJeu(tk.Frame):
 		# Dessine la forme de la pièce n°1
 		L = H = 0
 		piece = self.listePieces[0].shape
-		for y in range(len(piece)):
-			for x in range(0, len(piece[y])):
-				if piece[y][x] == 1 :
+		for ligne in piece:
+			for pixel in ligne:
+				if pixel == 1 :
 					self.tabpieces0.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
@@ -280,9 +305,9 @@ class InterfaceJeu(tk.Frame):
 		# Dessine la forme de la pièce n°2
 		L = H = 0
 		piece = self.listePieces[1].shape
-		for y in range(len(piece)):
-			for x in range(0, len(piece[y])):
-				if piece[y][x] == 1 :
+		for ligne in piece:
+			for pixel in ligne:
+				if pixel == 1 :
 					self.tabpieces1.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
@@ -296,9 +321,9 @@ class InterfaceJeu(tk.Frame):
 		# Dessine la forme de la pièce n°3
 		L = H = 0
 		piece = self.listePieces[2].shape
-		for y in range(len(piece)):
-			for x in range(0, len(piece[y])):
-				if piece[y][x] == 1 :
+		for ligne in piece:
+			for pixel in ligne:
+				if pixel == 1 :
 					self.tabpieces2.create_rectangle(20+L,
 												20+H,
 												20+L+TAILLE_CARREAU,
@@ -313,7 +338,7 @@ class InterfaceJeu(tk.Frame):
 		"""Initialisation de la grille"""
 		L = H = 0
 		for i, ligne in enumerate(self.board.matrix):
-			for j, pixel in enumerate(ligne):
+			for j, _ in enumerate(ligne):
 				tag = str(j)+"-"+str(i)     #Création du tag de chaque carreau
 				self.canvas.create_rectangle(PIX_L_INTERFACE/2+L,
 											PIX_H_INTERFACE/2+H,
@@ -321,7 +346,8 @@ class InterfaceJeu(tk.Frame):
 											PIX_H_INTERFACE/2+H+TAILLE_CARREAU,
 											tags = tag)
 				L += TAILLE_CARREAU
-				if self.parent.DEBUG: print("Tag : {}".format(tag))
+				if self.parent.DEBUG:
+					print("Tag : {}".format(tag))
 			H += TAILLE_CARREAU
 			L = 0
 
@@ -341,29 +367,41 @@ class InterfaceJeu(tk.Frame):
 		Coord = ["IsValid", "X", "Y"]
 
 		# Vérifie la position de la souris en X
-		if (event.x > PIX_L_INTERFACE/2 and event.x < PIX_L_INTERFACE/2+self.largeur*TAILLE_CARREAU):
+		if (event.x > PIX_L_INTERFACE/2
+		and event.x < PIX_L_INTERFACE/2+self.largeur*TAILLE_CARREAU):
 			X_Carreau = int(abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU)
 			Coord[0] = "Valid"
 			Coord[1] = X_Carreau
-			if self.parent.DEBUG: print("Carreau en X: {}".format(X_Carreau))
+			if self.parent.DEBUG:
+				print("Carreau en X: {}".format(X_Carreau))
 		else :
 			Coord[0] = "Not_Valid"
 
 		# Vérifie la position de la souris en Y
-		if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+self.largeur*TAILLE_CARREAU and Coord[0] == "Valid"):
-			Y_Carreau = int(abs((((PIX_H_INTERFACE+self.largeur*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)-(self.largeur-1)))
+		if (event.y > PIX_H_INTERFACE/2
+		and event.y < PIX_H_INTERFACE/2+self.largeur*TAILLE_CARREAU
+		and Coord[0] == "Valid"):
+			Y_Carreau = int(abs(
+				(((PIX_H_INTERFACE+self.largeur*TAILLE_CARREAU-event.y)
+				- PIX_H_INTERFACE/2)//TAILLE_CARREAU)-(self.largeur-1)
+			))
 			Coord[2] = Y_Carreau
-			if self.parent.DEBUG: print("Carreau en Y: {}".format(Y_Carreau))
+			if self.parent.DEBUG:
+				print("Carreau en Y: {}".format(Y_Carreau))
 		else :
 			Coord[0] = "Not_Valid"
 		
-		if (Coord[0] == "Valid"):
+		if Coord[0] == "Valid":
 			# Si l'utilisateur a cliquer sur le plateau alors on esaye de placer la pièce
 			try:
-				self.board.placePiece(self.piece_choisie, Coord[1], Coord[2], color = self.cpt_tour)
+				self.board.placePiece(
+					self.piece_choisie,
+					Coord[1], Coord[2],
+					color = self.cpt_tour)
 			except PlacementException as e:
 				# La pièce n'as pas pu être placée
-				if self.parent.DEBUG: print("Erreur de placement : {}".format(e.args[0]))
+				if self.parent.DEBUG:
+					print("Erreur de placement : {}".format(e.args[0]))
 				self.erreur.config(text=e.args[0])
 				# Cache le message d'erreur après un court délai
 				self.after(1000, lambda:self.erreur.config(text=""))
@@ -378,8 +416,11 @@ class InterfaceJeu(tk.Frame):
 			
 			# Vérifie si la partie est finie
 			if self.board.isBoardFull():
-				tk.messagebox.showinfo("Victoire !", "Bravo ! Le joueur {} à remporté la partie.".format(self.cpt_tour))
-			if self.parent.DEBUG: pprint.pprint(self.board.matrix)
+				tk.messagebox.showinfo(
+					"Victoire !",
+					"Bravo ! Le joueur {} à remporté la partie.".format(self.cpt_tour))
+			if self.parent.DEBUG:
+				pprint.pprint(self.board.matrix)
 
 	def reset(self):
 		"""Replace tout le jeu à son état initial et relance une partie"""
@@ -402,7 +443,7 @@ class InterfaceJeu(tk.Frame):
 
 # Lancement du programme
 if __name__ == "__main__":
-	"""Lancement du programme"""
+	# Lancement du programme
 	root = tk.Tk()
 	app = FenetrePrincipale(root).pack(side="top", fill="both", expand=True)
 	root.mainloop()

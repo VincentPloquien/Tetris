@@ -99,11 +99,15 @@ class Board:
 
 		newShape = newPiece.shape
 		if len(newShape) > self.height:
-			raise ValueError("La hauteur d'une pièce ne peut pas être plus grande que celle du jeu")
+			raise ValueError(
+				"La hauteur d'une pièce ne peut pas être plus grande que celle du jeu"
+			)
 		previousLength = -1
 		for line in newShape:
 			if len(line) > self.width:
-				raise ValueError("La largeur d'une pièce ne peut pas être plus grande que celle du jeu")
+				raise ValueError(
+					"La largeur d'une pièce ne peut pas être plus grande que celle du jeu"
+					)
 			if len(line) != previousLength and previousLength != -1:
 				raise ValueError("La largeur de la pièce n'est pas uniforme")
 			previousLength = len(line)
@@ -174,5 +178,5 @@ if __name__ == "__main__":
 		raise
 	pp.pprint(board.matrix)
 
-	piece = board.getRandomPiece()
-	pp.pprint(piece.shape)
+	randomPiece = board.getRandomPiece()
+	pp.pprint(randomPiece.shape)
