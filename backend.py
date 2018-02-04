@@ -70,7 +70,7 @@ class Board:
 			for j, pixel in enumerate(line):
 				# On ne vérifie pas les pixels de "structure" de la forme
 				if pixel == 0:
-					break
+					pass
 
 				# Vérification de l'emplacement
 				isFree = False
