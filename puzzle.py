@@ -138,6 +138,8 @@ class InterfaceJeu(tk.Frame):
 				tk.messagebox.showinfo(
 					"Victoire !",
 					"Bravo ! Le joueur {} à remporté la partie par abandon.".format(self.cpt_tour))
+				self.scoreJ1+=1
+				
 				self.reset()
 				pass
 			def tab1(_):
@@ -431,7 +433,6 @@ class InterfaceJeu(tk.Frame):
 	def reset(self):
 		"""Replace tout le jeu à son état initial et relance une partie"""
 		# Reset des variables
-		self.scoreJ1 = self.scoreJ2 = 0
 		self.piece_choisie = None
 		self.listePieces = []
 		
