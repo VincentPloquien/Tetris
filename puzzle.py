@@ -92,8 +92,7 @@ class FenetrePrincipale(tk.Frame):
 		"""Gère le menu pour changer le mode de jeu en *mode*"""
 		if box.askyesno(
 			'Redémarrage',
-			'Voulez vous vraiment recommencer une nouvelle partie en mode {} ?'\
-			.format(mode)):
+			'Voulez vous vraiment recommencer une nouvelle partie en mode {} ?'.format(mode)):
 			self.mode = mode
 			self.reset()
 	
@@ -101,8 +100,7 @@ class FenetrePrincipale(tk.Frame):
 		"""Gère le menu pour changer la taille du jeu à *taille*"""
 		if box.askyesno(
 			'Redémarrage',
-			'Voulez vous vraiment recommencer une nouvelle partie avec la taille {} ?'\
-			.format(taille)):
+			'Voulez vous vraiment recommencer une nouvelle partie avec la taille {} ?'.format(taille)):
 			self.taille = taille
 			self.reset()
 	
