@@ -5,8 +5,8 @@ import tkinter.messagebox as box
 from backend import Board, Piece, PlacementException
 #importation des bibliothèques
 
-LARG = 16    #Largeur de la grille (a remplacer par Board.width)
-HAUT = 16    #Hauteur de la grille (a remplacer par Board.height)
+LARG = 6    #Largeur de la grille (a remplacer par Board.width)
+HAUT = 6    #Hauteur de la grille (a remplacer par Board.height)
 PIX_H_INTERFACE = 3   #Place pour le reste des trucs
 PIX_L_INTERFACE = 3   #Place pour le reste des trucs
 TAILLE_CARREAU = 25 #Coté de chaque carreau de la grille en pixel
@@ -67,6 +67,14 @@ class FenetrePrincipale(tk.Frame):
 	def taille_du_jeu(self, taille):
 		if box.askyesno('Redémarrage', 'Vous vous apprêtez à recommencer une nouvelle partie avec la taille {}, êtes vous sûr ?'.format(taille)):
 			self.taille = taille
+			if taille == "petit":
+				LARG = HAUT = 6
+			
+			if taille == "moyen":
+				LARG = HAUT = 10
+			
+			if taille == "grand":
+				LARG = HAUT = 16
 			self.reset()
 	
 	def reset(self):
