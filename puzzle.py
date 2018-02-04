@@ -140,7 +140,6 @@ class InterfaceJeu(tk.Frame):
 					"Bravo ! Le joueur {} à remporté la partie par abandon.".format(self.cpt_tour))
 				self.scoreJ1+=1
 				self.scj1.config(text=scoreJ1)
-				
 				self.reset()
 			def tab1(_):
 				self.piece_choisie=self.listePieces[0]
@@ -186,13 +185,15 @@ class InterfaceJeu(tk.Frame):
 		self.j1 = tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
 		self.j1.grid(column=0, row=0)
 		tk.Label(self.j1, text="Joueur 1").pack(padx=10, pady=2)
-		self.scj1= tk.Label(self.j1, text=self.scoreJ1).pack()
+		self.scj1= tk.Label(self.j1, text=self.scoreJ1)
+		self.scj1.pack()
 		
 		# Label "score J2"
 		self.j2= tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
 		self.j2.grid(column=2, row=0)
 		tk.Label(self.j2, text="Joueur 2:").pack(padx=10, pady=2)
-		self.scj2= tk.Label(self.j2, text=self.scoreJ2).pack()
+		self.scj2= tk.Label(self.j2, text=self.scoreJ2)
+		self.scj2.pack()
 
 		# Label message d'erreur
 		self.erreur = tk.Label(self, text="")
