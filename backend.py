@@ -1,4 +1,7 @@
 # G08
+# PITHON Mathieu
+# PLOQUIEN Vincent
+# PREVOST Thomas
 
 """Le backend gère toute la partie logique du jeu
 (gestion du plateau, test de placement, ...)"""
@@ -49,6 +52,15 @@ class Board:
 	def isFree(self, x, y):
 		"""Renvoie True si la case en x,y est vide"""
 		return self.matrix[y][x] == 0
+
+	def isBoardFull(self):
+		"""Renvoie True si toute le plateau de jeu est occupé (fin de partie)"""
+		for y in range(len(self.matrix)):
+			for x in range(len(self.matrix[y])):
+				if self.isFree(x, y):
+					# Si on trouve une case libre alors on renvoit True
+					return False
+		return True 
 
 	def placePiece(self, piece, x, y, color=1):
 		"""Insere la piece dans le tableau de jeu apres verification"""
@@ -162,5 +174,5 @@ if __name__ == "__main__":
 		raise
 	pp.pprint(board.matrix)
 
-	piece = board.getRandomPiece()
-	pp.pprint(piece.shape)
+	randomPiece = board.getRandomPiece()
+	pp.pprint(randomPiece.shape)
