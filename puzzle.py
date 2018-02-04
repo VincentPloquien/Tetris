@@ -141,7 +141,6 @@ class InterfaceJeu(tk.Frame):
 				self.scoreJ1+=1
 				
 				self.reset()
-				pass
 			def tab1(_):
 				self.piece_choisie=self.listePieces[0]
 			def tab2(_):
@@ -422,6 +421,12 @@ class InterfaceJeu(tk.Frame):
 			Coord[0] = "Not_Valid"
 		
 		if Coord[0] == "Valid":
+			if self.piece_choisie == None:
+				self.erreur.config(text="Vous devez choisir une pièce pour commencer !")
+				# Cache le message d'erreur après un court délai
+				self.after(1000, lambda:self.erreur.config(text=""))
+				return
+
 			# Si l'utilisateur a cliquer sur le plateau alors on esaye de placer la pièce
 			try:
 				self.board.placePiece(
