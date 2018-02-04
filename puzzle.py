@@ -148,7 +148,7 @@ class InterfaceJeu(tk.Frame):
 			def tab3(_):
 				self.piece_choisie=self.listePieces[2]
 			
-			self.abandonner=tk.Button(self, text="abandonner", command=abandon)
+			self.abandonner=tk.Button(self, text="J'abandonne", command=abandon)
 			self.abandonner.grid(column=2, row=2)
 			# Création de chaque canvas contenant les pièces à jouer	
 			self.tabpieces0 = tk.Canvas(self,
