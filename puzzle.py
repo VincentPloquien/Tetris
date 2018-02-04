@@ -135,13 +135,26 @@ class InterfaceJeu(tk.Frame):
 		if self.parent.mode == "standard":
 			# Initialisation du tableau de choix des pièces en mode standard
 			def abandon():
-				tk.messagebox.showinfo(
-					"Victoire !",
-					"Bravo ! Le joueur {} à remporté la partie par abandon.".format(self.cpt_tour))
-				self.scoreJ1+=1
-				self.j1.grid(column=1, row=0)
 				
-				self.reset()
+				# Mise à jour des scores
+				if self.cpt_tour == 1:
+					tk.messagebox.showinfo(
+						"Victoire !",
+						"Bravo ! Le joueur 2 à remporté la partie par abandon.")
+					self.scoreJ2 += 1
+				else:
+					tk.messagebox.showinfo(
+						"Victoire !",
+						"Bravo ! Le joueur 1 à remporté la partie par abandon.")
+					self.scoreJ1 += 1
+			
+				self.scj1.config(text=self.scoreJ1)
+				self.scj2.config(text=self.scoreJ2)
+
+				# Verrouillage du jeu
+				self.abandonner.config(state=tk.DISABLED)
+				self.canvas.unbind("<Button-1>")
+				
 			def tab1(_):
 				self.piece_choisie=self.listePieces[0]
 			def tab2(_):
@@ -186,13 +199,15 @@ class InterfaceJeu(tk.Frame):
 		self.j1 = tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
 		self.j1.grid(column=0, row=0)
 		tk.Label(self.j1, text="Joueur 1").pack(padx=10, pady=2)
-		self.scj1= tk.Label(self.j1, text=self.scoreJ1).pack()
+		self.scj1 = tk.Label(self.j1, text=self.scoreJ1)
+		self.scj1.pack()
 		
 		# Label "score J2"
 		self.j2= tk.Frame(self, borderwidth=1, relief=tk.SUNKEN)
 		self.j2.grid(column=2, row=0)
 		tk.Label(self.j2, text="Joueur 2:").pack(padx=10, pady=2)
-		self.scj2= tk.Label(self.j2, text=self.scoreJ2).pack()
+		self.scj2 = tk.Label(self.j2, text=self.scoreJ2)
+		self.scj2.pack()
 
 		# Label message d'erreur
 		self.erreur = tk.Label(self, text="")
@@ -446,8 +461,12 @@ class InterfaceJeu(tk.Frame):
 			# Passage au joueur suivant
 			if self.cpt_tour == 1:
 				self.cpt_tour = 2
+				self.j1.config(relief=tk.FLAT)
+				self.j2.config(relief=tk.SUNKEN)
 			else:
 				self.cpt_tour = 1
+				self.j1.config(relief=tk.SUNKEN)
+				self.j2.config(relief=tk.FLAT)
 			
 			# Vérifie si la partie est finie
 			if self.board.isBoardFull():
@@ -462,12 +481,17 @@ class InterfaceJeu(tk.Frame):
 		# Reset des variables
 		self.piece_choisie = None
 		self.listePieces = []
+		self.cpt_tour = 1
 		
 		# Reset des canvas
 		self.canvas.delete("all")
 		self.tabpieces0.delete("all")
 		self.tabpieces1.delete("all")
 		self.tabpieces2.delete("all")
+
+		# Reset de l'interface
+		self.abandonner.config(state=tk.NORMAL)
+		self.canvas.bind("<Button-1>", self.pointeur)
 
 		# Re-init
 		self.initBoard()
