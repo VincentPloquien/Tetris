@@ -139,7 +139,7 @@ class InterfaceJeu(tk.Frame):
 					"Victoire !",
 					"Bravo ! Le joueur {} à remporté la partie par abandon.".format(self.cpt_tour))
 				self.scoreJ1+=1
-				self.j1.grid(column=1, row=0)
+				self.scj1.config(text=scoreJ1)
 				
 				self.reset()
 			def tab1(_):
@@ -446,8 +446,13 @@ class InterfaceJeu(tk.Frame):
 			# Passage au joueur suivant
 			if self.cpt_tour == 1:
 				self.cpt_tour = 2
+				self.j1.config(background='white')
+				self.j2.config(background='red')
+				
 			else:
 				self.cpt_tour = 1
+				self.j1.config(background='green')
+				self.j2.config(background='white')
 			
 			# Vérifie si la partie est finie
 			if self.board.isBoardFull():
@@ -462,7 +467,8 @@ class InterfaceJeu(tk.Frame):
 		# Reset des variables
 		self.piece_choisie = None
 		self.listePieces = []
-		
+		self.j1.config(background="white")
+		self.j2.config(background="white")
 		# Reset des canvas
 		self.canvas.delete("all")
 		self.tabpieces0.delete("all")
