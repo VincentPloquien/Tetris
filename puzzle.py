@@ -6,6 +6,7 @@
 #importation des bibliothèques
 import tkinter as tk
 import tkinter.messagebox as box
+import pprint
 from backend import Board, Piece, PlacementException
 
 # Constantes pour la marge et la taille d'un carreau
@@ -29,6 +30,7 @@ class FenetrePrincipale(tk.Frame):
 		# Init variables
 		self.mode = "standard"
 		self.taille = "moyen"
+		self.DEBUG = False
 
 		# Init menu déroulant
 		self.menu_deroulant()
@@ -45,6 +47,7 @@ class FenetrePrincipale(tk.Frame):
 		# Menu "Partie"
 		menu1 = tk.Menu(menubar, tearoff=0)
 		menu1.add_command(label="Nouvelle partie", command=self.reset)
+		menu1.add_checkbutton(label="Mode débug", command=self.debug)
 		menu1.add_separator()
 		menu1.add_command(label="Quitter", command=self.quitter)
 		menubar.add_cascade(label="Partie", menu=menu1)
@@ -65,20 +68,24 @@ class FenetrePrincipale(tk.Frame):
 		# Ajout du menu
 		self.parent.config(menu=menubar)
 	
+	def debug(self):
+		"""Gère le sous-menu de débug"""
+		self.DEBUG = not self.DEBUG
+
 	def quitter(self):
-		"""Gère le sous-menu pour quitter le jeu"""
+		"""Gère le menu pour quitter le jeu"""
 		if box.askyesno('Attention', 'Êtes vous sûr de vouloir fermer la fenêtre ?'):
 			self.parent.destroy()
 	
 	### Jeu
 	def mode_de_jeu(self, mode):
-		"""Gère le sous-menu pour changer le mode de jeu en *mode*"""
+		"""Gère le menu pour changer le mode de jeu en *mode*"""
 		if box.askyesno('Redémarrage', 'Vous vous apprêtez à recommencer une nouvelle partie en mode {}, êtes vous sûr ?'.format(mode)):
 			self.mode = mode
 			self.reset()
 	
 	def taille_du_jeu(self, taille):
-		"""Gère le sous-menu pour changer la taille du jeu à *taille*"""
+		"""Gère le menu pour changer la taille du jeu à *taille*"""
 		if box.askyesno('Redémarrage', 'Vous vous apprêtez à recommencer une nouvelle partie avec la taille {}, êtes vous sûr ?'.format(taille)):
 			self.taille = taille
 			self.reset()
@@ -180,7 +187,7 @@ class InterfaceJeu(tk.Frame):
 		# Init du Board et Canvas
 		self.board = Board(self.largeur, self.largeur)
 		self.canvas.config(width=(PIX_L_INTERFACE+self.largeur*TAILLE_CARREAU), height=(PIX_H_INTERFACE+self.largeur*TAILLE_CARREAU))
-		#print(self.largeur)
+		if self.parent.DEBUG: print("Largeur du plateau: ", self.largeur)
 
 		# Ajout des différentes pièces dans la librairie
 		self.board.addPiece(Piece([
@@ -314,7 +321,7 @@ class InterfaceJeu(tk.Frame):
 											PIX_H_INTERFACE/2+H+TAILLE_CARREAU,
 											tags = tag)
 				L += TAILLE_CARREAU
-				# print(tag)
+				if self.parent.DEBUG: print("Tag : {}".format(tag))
 			H += TAILLE_CARREAU
 			L = 0
 
@@ -338,7 +345,7 @@ class InterfaceJeu(tk.Frame):
 			X_Carreau = int(abs((event.x - PIX_L_INTERFACE/2))//TAILLE_CARREAU)
 			Coord[0] = "Valid"
 			Coord[1] = X_Carreau
-			# print(X_Carreau)
+			if self.parent.DEBUG: print("Carreau en X: {}".format(X_Carreau))
 		else :
 			Coord[0] = "Not_Valid"
 
@@ -346,7 +353,7 @@ class InterfaceJeu(tk.Frame):
 		if (event.y > PIX_H_INTERFACE/2 and event.y < PIX_H_INTERFACE/2+self.largeur*TAILLE_CARREAU and Coord[0] == "Valid"):
 			Y_Carreau = int(abs((((PIX_H_INTERFACE+self.largeur*TAILLE_CARREAU-event.y) - PIX_H_INTERFACE/2)//TAILLE_CARREAU)-(self.largeur-1)))
 			Coord[2] = Y_Carreau
-			# print(Y_Carreau)
+			if self.parent.DEBUG: print("Carreau en Y: {}".format(Y_Carreau))
 		else :
 			Coord[0] = "Not_Valid"
 		
@@ -356,7 +363,7 @@ class InterfaceJeu(tk.Frame):
 				self.board.placePiece(self.piece_choisie, Coord[1], Coord[2], color = self.cpt_tour)
 			except PlacementException as e:
 				# La pièce n'as pas pu être placée
-				#print(e.args[0])
+				if self.parent.DEBUG: print("Erreur de placement : {}".format(e.args[0]))
 				self.erreur.config(text=e.args[0])
 				# Cache le message d'erreur après un court délai
 				self.after(1000, lambda:self.erreur.config(text=""))
@@ -372,7 +379,7 @@ class InterfaceJeu(tk.Frame):
 			# Vérifie si la partie est finie
 			if self.board.isBoardFull():
 				tk.messagebox.showinfo("Victoire !", "Bravo ! Le joueur {} à remporté la partie.".format(self.cpt_tour))
-			# print(self.board.matrix)
+			if self.parent.DEBUG: pprint.pprint(self.board.matrix)
 
 	def reset(self):
 		"""Replace tout le jeu à son état initial et relance une partie"""
